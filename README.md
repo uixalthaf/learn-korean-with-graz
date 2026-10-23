@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn Korean with Graz 🇰🇷
+
+A modern Korean language learning platform designed to make learning Korean more accessible, structured, and engaging through a clean, intuitive user experience.
+
+Built with **Next.js, React, TypeScript, and Tailwind CSS**, this project explores modern frontend architecture, reusable UI components, responsive design, and the foundations of an online language tutoring platform.
+
+## Overview
+
+Learn Korean with Graz aims to bring the essential elements of online Korean tutoring into one cohesive learning experience — from discovering lessons to managing classes and accessing learning resources.
+
+The project is being developed incrementally, with an emphasis on maintainable code, thoughtful UI/UX decisions, and production-oriented development practices.
+
+## Features
+
+### Implemented
+
+- **Responsive landing page** — A structured, responsive interface designed to introduce the platform and its learning experience.
+- **Reusable UI components** — A component-based approach to building consistent and maintainable interfaces.
+- **Modern visual design** — A cohesive design system with considered typography, spacing, colour, and visual hierarchy.
+
+### Planned
+
+- **Student dashboard** — A centralised view of upcoming lessons and learning resources.
+- **Class scheduling** — A streamlined experience for managing tutoring sessions.
+- **Learning materials** — Access to lesson notes and resources after each class.
+- **Authentication and protected routes** — Role-aware access for students and the tutor.
+- **Tutor dashboard** — Tools for managing students and scheduled classes.
+
+*Planned features will be added progressively as development continues.*
+
+## Tech Stack
+
+| Technology   | Purpose                                        |
+| ------------ | ---------------------------------------------- |
+| Next.js      | Application framework and routing              |
+| React        | Component-based UI development                 |
+| TypeScript   | Type safety and maintainable code              |
+| Tailwind CSS | Responsive styling and UI development          |
+| Prisma       | Database ORM and data-access layer exploration |
+
+## Engineering Focus
+
+This project is an opportunity to apply modern frontend engineering practices, including:
+
+- Component composition and separation of concerns
+- Reusable, maintainable UI architecture
+- Responsive layouts and accessibility considerations
+- Type-safe development with TypeScript
+- Next.js rendering and routing patterns
+- Structured application design and incremental feature delivery
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js compatible with the project's Next.js dependencies
+- npm
+- Git
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/uixalthaf/learn-korean-with-graz.git
+cd learn-korean-with-graz
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Status:** In active development.
 
-## Learn More
+The landing page is the starting point, with dashboard functionality and tutoring workflows planned as subsequent development milestones.
 
-To learn more about Next.js, take a look at the following resources:
+## Roadmap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [x] Initial landing page
+- [ ] Complete responsive and accessibility refinements
+- [ ] Student dashboard
+- [ ] Authentication and session management
+- [ ] Class scheduling and lesson management
+- [ ] Database-backed student and lesson data
+- [ ] Production deployment and testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## About the Project
 
-## Deploy on Vercel
+Learn Korean with Graz is an independent development project focused on combining thoughtful interface design with practical application engineering.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The goal is to evolve the initial experience into a maintainable, full-stack learning platform while exploring modern web development patterns and real-world product requirements.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+**Built with Next.js, TypeScript, and React.**
