@@ -1,26 +1,111 @@
+
 @import "tailwindcss";
 
+/* Light theme: warm cream and forest green */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  --background: #F5F0E6;
+  --foreground: #4F5949;
+  --primary: #315B40;
+  --primary-hover: #264A33;
+  --heading: #263D2C;
+  --surface: #F5F0E6;
+  --border: #E5DED0;
+  --muted: #7D8174;
+  --font-heading: Georgia, "Times New Roman", serif;
+   --accent-background: #C9DCC0;
+}
+/* Dark theme */
+:root.dark {
+  color-scheme: dark;
+
+  --background: #18251C;
+  --foreground: #D5DDCF;
+  --primary: #A8C5A0;
+  --primary-hover: #C1D7B9;
+  --heading: #F0F3E9;
+  --surface: #26372A;
+  --border: #3B4C3D;
+  --muted: #A4B19E;
 }
 
+/* Expose tokens to Tailwind CSS v4 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-heading: var(--heading);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+   --color-accent-background: var(--accent-background);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: Georgia, "Times New Roman", serif;
+
+  --radius-card: 1rem;
+  --shadow-soft: 0 4px 24px rgb(38 61 44 / 8%);
+    --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* Global defaults */
+* {
+  box-sizing: border-box;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* Heading defaults */
+h1,
+h2,
+h3 ,
+h4{
+  margin: 0;
+  color: var(--heading);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+h4{
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Keep images within their containers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
