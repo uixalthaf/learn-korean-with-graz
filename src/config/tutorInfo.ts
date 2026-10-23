@@ -1,1 +1,1 @@
-export const TUTOR_NAME="Graz";
+export const TUTOR_NAME = "Graz";

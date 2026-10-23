@@ -1,6 +1,5 @@
-
-"use client"
-import type { ButtonProps, ButtonVariant, ButtonSize } from './Button.types'
+"use client";
+import type { ButtonProps, ButtonVariant, ButtonSize } from "./Button.types";
 
 export function Button({
   variant = "primary",
@@ -15,8 +14,7 @@ export function Button({
   const variants: Record<ButtonVariant, string> = {
     primary: "bg-primary text-heading hover:bg-primary-hover text-white",
     secondary: "bg-surface text-heading hover:bg-border",
-    outline:
-      "border border-border bg-transparent text-heading hover:bg-surface",
+    outline: "border border-border bg-transparent text-heading hover:bg-surface",
   };
 
   const sizes: Record<ButtonSize, string> = {
