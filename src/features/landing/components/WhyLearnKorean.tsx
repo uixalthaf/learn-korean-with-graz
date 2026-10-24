@@ -6,8 +6,8 @@ import hanokRoof from "@/assets/images/hanok_roof.png";
 
 const WhyLearnKorean = () => {
   return (
-    <div className="mt-8 flex items-center justify-between">
-      <div className="flex flex-col gap-4">
+    <div className="mt-8 flex flex-col items-center justify-between gap-6 md:flex-row md:gap-8">
+      <div className="flex min-w-0 flex-col gap-4 md:flex-1">
         <span className="uppercase">WHY LEARN KOREAN WITH {TUTOR_NAME}?</span>
         <h3>More than just a language.</h3>
 
@@ -21,8 +21,8 @@ const WhyLearnKorean = () => {
           Explore Courses <ArrowRight size={16} />
         </Button>
       </div>
-      <div>
-        <Image src={hanokRoof} alt="hanok roof" />
+      <div className="w-full md:w-[42%]">
+        <Image src={hanokRoof} alt="hanok roof" className="w-full rounded-xl object-cover" />
       </div>
     </div>
   );

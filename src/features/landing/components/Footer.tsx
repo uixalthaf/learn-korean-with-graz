@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="mb-6">
       <div
-        className="flex justify-between items-center bg-primary mt-6 p-6 rounded-xl"
+        className="mt-6 flex flex-col items-start justify-between gap-5 rounded-xl bg-primary p-6 sm:flex-row sm:items-center"
         style={{
           backgroundImage: `url('${getStartedBannerVector.src}')`,
           backgroundPosition: "-232px 386px",
@@ -19,7 +19,7 @@ const Footer = () => {
           <h2 className="text-white!">Let's Make Korean a part of your story.</h2>
           <span>Join today and take the first step towards Korean learning.</span>
         </div>
-        <Button variant="secondary">
+        <Button variant="secondary" size="sm">
           Get Started <ArrowRight />
         </Button>
       </div>

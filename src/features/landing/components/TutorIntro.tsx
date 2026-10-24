@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/Button/Button";
 
 const TutorIntro = () => {
   return (
-    <div className="flex mt-8 gap-4 items-center">
+    <div className="mt-8 flex flex-col items-center gap-6 md:flex-row md:gap-8">
       {/* <div>
 <Image src={tutorImage} alt="" />
     </div> */}
-      <div className="flex flex-col gap-3 flex-1">
+      <div className="flex min-w-0 flex-col gap-3 md:flex-1">
         <span className="uppercase">meet your tutor</span>
         <h2>Hi I am {TUTOR_NAME}</h2>
         <p>
@@ -29,8 +29,8 @@ const TutorIntro = () => {
         </Button>
       </div>
 
-      <div className="min-w-[200px] max-w-[350px] min-h-[300px]">
-        <Image src={learningLanguageQuote} alt="" className="object-fit" />
+      <div className="w-full max-w-[350px] md:w-[42%] md:shrink-0">
+        <Image src={learningLanguageQuote} alt="" className="h-auto w-full object-contain" />
       </div>
     </div>
   );

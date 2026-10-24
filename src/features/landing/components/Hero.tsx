@@ -12,20 +12,20 @@ import Courses from "./Courses";
 function Hero() {
   return (
     <section className="mt-2">
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-5 mt-16">
+      <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between lg:gap-12">
+        <div className="mt-10 flex min-w-0 flex-1 flex-col gap-5 md:mt-16">
           <span className="text-xs bg-accent-background! p-2 rounded-xl w-fit">
             YOUR KOREAN LANGUAGE JOURNEY STARTS HERE.
           </span>
           <h2>
             A new lnguage. <br />A whole new world.
           </h2>
-          <p className="text-wrap">
-            Learn Korean from Hangul to real conversations with <br />
-            structured lessons and personalized guidance from Graz.
+          <p>
+            Learn Korean from Hangul to real conversations with structured lessons and personalized
+            guidance from Graz.
           </p>
-          <div className="flex gap-2">
-            <Button variant="primary">
+          <div className="flex flex-wrap gap-2">
+            <Button variant="primary" size="sm">
               Start Learning &ensp; <MoveRight width={18} />
             </Button>
             <Button variant="secondary">Meet Your Tutor</Button>
@@ -54,7 +54,7 @@ function Hero() {
             </div>
           </div>
         </div>
-        <div className="relative overflow-hidden h-[500px] w-[580px]">
+        <div className="relative h-[280px] w-full shrink-0 overflow-hidden sm:h-[360px] md:h-[360px] md:w-[42%] lg:h-[500px] lg:w-[48%]">
           <svg className="absolute h-0 w-0" aria-hidden="true">
             <defs>
               <clipPath id="hero-curve" clipPathUnits="objectBoundingBox">
