@@ -4,7 +4,7 @@
 :root {
   color-scheme: light;
 
-  --background: #f5f0e6;
+  --background: #fbf9f5;
   --foreground: #4f5949;
   --primary: #315b40;
   --primary-hover: #264a33;
@@ -60,7 +60,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), sans-serif;
   line-height: 1.6;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Heading defaults */

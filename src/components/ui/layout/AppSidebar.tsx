@@ -28,7 +28,7 @@ const navigationItems = [
 const AppSidebar = () => {
   return (
     <aside
-      className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-[#FAF9F6] p-5"
+      className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-[#f8f4ec] p-5"
       style={{
         backgroundImage: `url(${sidebarVector.src})`,
         backgroundSize: "140% auto",
@@ -80,7 +80,10 @@ const AppSidebar = () => {
           </div>
 
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-stone-800">Graz</p>
+            <div className="truncate text-sm font-semibold text-stone-800 flex items-center gap-1.5">
+              {/* <span className="h-2.5 w-2.5 bg-[green] rounded-full"></span> */}
+              Graz
+            </div>
             <p className="text-xs text-stone-500">Tutor & Admin</p>
           </div>
         </div>

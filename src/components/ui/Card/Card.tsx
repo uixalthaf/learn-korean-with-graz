@@ -9,19 +9,23 @@ interface CardBodyProps {
   className?: string;
   children?: ReactNode;
 }
+interface CardHeaderProps {
+  className?: string;
+  children?: ReactNode;
+}
 interface CardFooterProps {
   className?: string;
   children?: ReactNode;
 }
 export const Card = ({ className, children }: CardProps) => {
-  return <div className={cn("rounded-xl shadow-sm", className)}>{children}</div>;
+  return <div className={cn("rounded-xl shadow-sm p-4 bg-[#fdfefb]", className)}>{children}</div>;
 };
 
-export const CardHeader = () => {
-  return <div></div>;
+export const CardHeader = ({ className, children }: CardHeaderProps) => {
+  return <div className={cn("font-bold text-lg pb-4", className)}>{children}</div>;
 };
 export const CardBody = ({ className, children }: CardBodyProps) => {
-  return <div className={cn("", className)}>{children}</div>;
+  return <div className={cn("text-sm ", className)}>{children}</div>;
 };
 
 export const CardFooter = ({ className, children }: CardFooterProps) => {
