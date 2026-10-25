@@ -7,6 +7,10 @@ import { TUTOR_NAME } from "@/config/tutorInfo";
 import { loginUser } from "@/features/auth/login/api/login.api";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+interface LoginPayloadProps {
+  email: string;
+  password: string;
+}
 export default function LoginPage() {
   const router = useRouter();
 
@@ -22,7 +26,7 @@ export default function LoginPage() {
 
     // TODO: Connect to the login API.
     console.log({ email, password });
-    const loginPayload = { email, password };
+    const loginPayload: LoginPayloadProps = { email, password };
     try {
       const reponse = await loginUser(loginPayload);
       await Swal.fire({
@@ -105,8 +109,8 @@ export default function LoginPage() {
           />
         </div>
 
-        <Button type="submit" size="lg" className="w-full">
-          {isLoading ? "Signing in..." : "Sign In"}
+        <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+          Sign In
         </Button>
       </form>
 

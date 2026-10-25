@@ -69,3 +69,10 @@ export interface TutorDashboardResponse {
   quickActions: QuickAction[];
   courses: Course[];
 }
+
+export interface StatisticsDataInterface {
+  id: string;
+  title: string;
+  color: string;
+  value: number;
+}

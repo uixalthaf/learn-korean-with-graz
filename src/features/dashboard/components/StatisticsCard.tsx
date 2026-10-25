@@ -4,8 +4,9 @@ import { Card, CardBody } from "@/components/ui/Card/Card";
 import { Paperclip } from "lucide-react";
 
 import { getTutorDashboardData } from "../api/dashboard.api";
+import type { StatisticsDataInterface } from "../api/dashboard.api.types";
 const StatisticsCard = () => {
-  const [statisticsData, setStatisticsData] = React.useState([]);
+  const [statisticsData, setStatisticsData] = React.useState<StatisticsDataInterface[]>([]);
   useEffect(() => {
     async function fetchStatisticsData() {
       try {
