@@ -109,7 +109,7 @@ export default function LoginPage() {
           />
         </div>
 
-        <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+        <Button type="submit" size="lg" className="w-full">
           Sign In
         </Button>
       </form>
