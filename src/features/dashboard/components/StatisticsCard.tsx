@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
 import { Card, CardBody } from "@/components/ui/Card/Card";
-import { Book, Calendar, GroupIcon, Paperclip } from "lucide-react";
+import { Paperclip } from "lucide-react";
 
-import tutorDashboardData from "@/app/dashboard/tutor/tutorDashboardData";
 import { getTutorDashboardData } from "../api/dashboard.api";
 const StatisticsCard = () => {
-  const [statisticsData, setStatisticsData] = React.useState(tutorDashboardData.statistics);
+  const [statisticsData, setStatisticsData] = React.useState([]);
   useEffect(() => {
     async function fetchStatisticsData() {
       try {
@@ -19,7 +18,7 @@ const StatisticsCard = () => {
     fetchStatisticsData();
   }, []);
   return (
-    <div className="flex w-full gap-4 p-4 h-auto">
+    <div className="flex w-full gap-4 py-8 h-auto">
       {statisticsData.map((stat) => (
         <Card className={`p-4 flex-1 bg-${stat.color}`} key={stat.id}>
           <CardBody className="flex items-center gap-4">

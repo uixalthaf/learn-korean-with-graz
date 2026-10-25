@@ -1,9 +1,15 @@
+"use client";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { TUTOR_NAME } from "@/config/tutorInfo";
 import { Button } from "@/components/ui/Button/Button";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
+  const navigate = useRouter();
+  const goToSignInPage = () => {
+    navigate.push("/auth/login");
+  };
   return (
     <header className="w-full bg-background">
       <nav className="flex w-full items-center justify-between py-5 flex-wrap">
@@ -35,7 +41,9 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-8">
-          <Button variant="secondary">Sign In</Button>
+          <Button variant="secondary" onClick={goToSignInPage}>
+            Sign In
+          </Button>
 
           <Link
             href="#courses"

@@ -21,7 +21,7 @@ const AppBody = () => {
       <StatisticsCard />
       <div className="mt-4 flex gap-4">
         <div className="flex-1 h-full">
-          <GroupSessionsSection />
+          {/* <GroupSessionsSection /> */}
           {/* <QuickActionsSection /> hasnt been inlcuded in the dashboard yet, will be added later */}
         </div>
         <div className=" flex-1 h-full">

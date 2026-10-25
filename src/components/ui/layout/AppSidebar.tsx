@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -9,10 +10,12 @@ import {
   Settings,
   MessagesSquare,
   MailIcon,
+  LogOut,
 } from "lucide-react";
 import { TUTOR_NAME } from "@/config/tutorInfo";
 import Image from "next/image";
 import sidebarVector from "@/assets/images/sidebar_vector_illustration.png";
+import { useRouter } from "next/navigation";
 
 const navigationItems = [
   { label: "Dashboard", href: "/tutor", icon: LayoutDashboard },
@@ -26,6 +29,10 @@ const navigationItems = [
 ];
 
 const AppSidebar = () => {
+  const navigate = useRouter();
+  const handleLogout = () => {
+    navigate.push("/home");
+  };
   return (
     <aside
       className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-[#f8f4ec] p-5"
@@ -86,6 +93,7 @@ const AppSidebar = () => {
             </div>
             <p className="text-xs text-stone-500">Tutor & Admin</p>
           </div>
+          <LogOut size={20} className="ml-4 cursor-pointer" onClick={handleLogout} />
         </div>
       </div>
     </aside>
