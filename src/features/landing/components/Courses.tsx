@@ -33,7 +33,7 @@ const Courses = () => {
       <div className="flex justify-between gap-4 mt-6 flex-wrap">
         {coursesInfo.map((course, index) => (
           <Card className="flex flex-col flex-1" key={index}>
-            <CardBody className="">
+            <CardBody className="p-0">
               <Image
                 src={course.courseImage}
                 alt=""

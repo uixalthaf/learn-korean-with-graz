@@ -10,6 +10,9 @@ function Navbar() {
   const goToSignInPage = () => {
     navigate.push("/auth/login");
   };
+  const goToSignUpPage = () => {
+    navigate.push("/auth/signup");
+  };
   return (
     <header className="w-full bg-background">
       <nav className="flex w-full items-center justify-between py-5 flex-wrap">
@@ -45,13 +48,10 @@ function Navbar() {
             Sign In
           </Button>
 
-          <Link
-            href="#courses"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-primary-hover rounded-xl"
-          >
+          <Button variant="primary" onClick={goToSignUpPage}>
             Get Started
             <ArrowUpRight size={16} />
-          </Link>
+          </Button>
         </div>
       </nav>
     </header>
