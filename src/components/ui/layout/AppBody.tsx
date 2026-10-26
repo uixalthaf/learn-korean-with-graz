@@ -9,7 +9,7 @@ import QuickActionsSection from "@/features/dashboard/components/QuickActionsSec
 
 const AppBody = () => {
   return (
-    <div className="max-h-[calc(100vh-64px)] w-full bg-background p-4">
+    <div className="max-h-[calc(100vh-64px)] w-full bg-background p-6">
       <div>
         <span>Thu 23 Oct 2026 </span>
         <h2 className="font-bold font-georgia text-2xl">

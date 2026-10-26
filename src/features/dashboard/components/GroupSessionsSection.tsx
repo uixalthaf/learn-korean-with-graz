@@ -19,7 +19,7 @@ const GroupSessionsSection = () => {
               key={session.id}
             >
               <div className="flex items-center justify-between gap-2">
-                <div className="text-sm p-4 text-center bg-[#f4f9f5] rounded-lg flex justify-center font-bold">
+                <div className="text-sm p-4 text-center bg-accent-background rounded-lg flex justify-center font-bold">
                   {session.timeLabel}
                 </div>
                 <span className="font-semibold">{session.course}</span>

@@ -14,6 +14,19 @@
   --muted: #7d8174;
   --font-heading: Georgia, "Times New Roman", serif;
   --accent-background: #c9dcc0;
+
+  /* Dashboard additions */
+  --card: #fdfefb; /* card surface, slightly lighter than background */
+  --primary-deep: #20503a; /* active sidebar item */
+  --track: #efeadf; /* progress bar / chart empty track */
+  --chart-bar: #c9dcc0; /* inactive chart bars (highlight uses --primary) */
+
+  --success-bg: #cfe0c6;
+  --success-text: #2f5a3c;
+  --warning-bg: #f6e7c8;
+  --warning-text: #8a5a12;
+  --neutral-bg: #f1ead9;
+  --neutral-text: #6b6b55;
 }
 /* Dark theme */
 :root.dark {
@@ -27,6 +40,19 @@
   --surface: #26372a;
   --border: #3b4c3d;
   --muted: #a4b19e;
+  --accent-background: #34503b;
+
+  --card: #1f2f24;
+  --primary-deep: #a8c5a0;
+  --track: #2f4234;
+  --chart-bar: #34503b;
+
+  --success-bg: #2f4a36;
+  --success-text: #bfdcb6;
+  --warning-bg: #4a3d22;
+  --warning-text: #f0d79a;
+  --neutral-bg: #2f4234;
+  --neutral-text: #c4ccbc;
 }
 
 /* Expose tokens to Tailwind CSS v4 */
@@ -40,13 +66,21 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
   --color-accent-background: var(--accent-background);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-primary-deep: var(--primary-deep);
+  --color-track: var(--track);
+  --color-chart-bar: var(--chart-bar);
+  --color-success-bg: var(--success-bg);
+  --color-success-text: var(--success-text);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-text: var(--neutral-text);
   --font-heading: Georgia, "Times New Roman", serif;
 
   --radius-card: 1rem;
   --shadow-soft: 0 4px 24px rgb(38 61 44 / 8%);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
 /* Global defaults */
@@ -58,7 +92,7 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   font-size: 13px;
 }

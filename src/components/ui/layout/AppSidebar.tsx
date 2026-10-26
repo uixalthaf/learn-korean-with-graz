@@ -35,7 +35,7 @@ const AppSidebar = () => {
   };
   return (
     <aside
-      className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-[#f8f4ec] p-5"
+      className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-background p-5"
       style={{
         backgroundImage: `url(${sidebarVector.src})`,
         backgroundSize: "140% auto",
@@ -61,8 +61,8 @@ const AppSidebar = () => {
                   href={item.href}
                   className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                     item.href === "/tutor"
-                      ? "bg-emerald-900 text-white"
-                      : "text-stone-600 hover:bg-emerald-50 hover:text-emerald-950"
+                      ? "bg-primary text-white"
+                      : "text-muted hover:bg-emerald-50 hover:text-emerald-950"
                   }`}
                 >
                   <Icon size={18} strokeWidth={1.8} />
@@ -82,7 +82,7 @@ const AppSidebar = () => {
       {/* Tutor profile */}
       <div className="mt-auto border-t border-stone-200 pt-5">
         <div className="flex items-center gap-3 px-2">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-900">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-background text-sm font-semibold text-emerald-900">
             G
           </div>
 

@@ -56,9 +56,9 @@ export default function SignUpPage() {
   return (
     <div className="w-full">
       <div className="mb-8">
-        <p className="mb-3 text-sm font-medium text-primary">한국어를 시작해 봐요 · Let's begin</p>
+        <p className="mb-3 text-sm font-medium text-primary">Let's begin</p>
 
-        <h1 className="font-heading text-3xl font-semibold">Create your account</h1>
+        <h2 className="text-3xl font-semibold">Create your account</h2>
 
         <p className="mt-3 text-sm text-muted">
           Start your Korean learning journey with {TUTOR_NAME}.

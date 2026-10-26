@@ -16,7 +16,7 @@ export default function AuthLayout({
       }}
     >
       {/* Left panel — Branding */}
-      <section className="hidden md:flex flex-col justify-center p-12 border-r-1 border-[#ccc]">
+      <section className="hidden md:flex flex-col justify-center p-12 border-r-1 border-border">
         <h2 className="mt-6 text-3xl font-semibold">Learn Korean with {TUTOR_NAME}</h2>
 
         <p className="mt-4">Your journey to Korean fluency starts here.</p>
