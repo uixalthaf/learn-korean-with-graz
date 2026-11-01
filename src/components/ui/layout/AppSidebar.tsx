@@ -16,6 +16,7 @@ import { TUTOR_NAME } from "@/config/tutorInfo";
 import Image from "next/image";
 import sidebarVector from "@/assets/images/sidebar_vector_illustration.png";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/store/hooks";
 
 const navigationItems = [
   { label: "Dashboard", href: "/tutor", icon: LayoutDashboard },
@@ -33,6 +34,7 @@ const AppSidebar = () => {
   const handleLogout = () => {
     navigate.push("/home");
   };
+  const userName = useAppSelector((state) => state.auth.user);
   return (
     <aside
       className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-background p-5"
@@ -89,9 +91,15 @@ const AppSidebar = () => {
           <div className="min-w-0">
             <div className="truncate text-sm font-semibold text-stone-800 flex items-center gap-1.5">
               {/* <span className="h-2.5 w-2.5 bg-[green] rounded-full"></span> */}
-              Graz
+              {userName?.name}
             </div>
-            <p className="text-xs text-stone-500">Tutor & Admin</p>
+            <p className="text-xs text-stone-500">
+              {userName?.role === "TUTOR"
+                ? "Tutor & Admin"
+                : userName?.role === "STUDENT"
+                  ? "Student"
+                  : "Guest"}
+            </p>
           </div>
           <LogOut size={20} className="ml-4 cursor-pointer" onClick={handleLogout} />
         </div>

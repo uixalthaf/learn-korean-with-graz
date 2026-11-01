@@ -1,5 +1,7 @@
+import TutorDashboard from "@/features/dashboard/components/TutorDashboard";
+
 const page = () => {
-  return <div>tutor dashboard</div>;
+  return <TutorDashboard />;
 };
 
 export default page;

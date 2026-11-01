@@ -7,12 +7,15 @@ import { TUTOR_NAME } from "@/config/tutorInfo";
 import { loginUser } from "@/features/auth/login/api/login.api";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { setUser } from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/store/hooks";
 interface LoginPayloadProps {
   email: string;
   password: string;
 }
 export default function LoginPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +31,7 @@ export default function LoginPage() {
     console.log({ email, password });
     const loginPayload: LoginPayloadProps = { email, password };
     try {
-      const reponse = await loginUser(loginPayload);
+      const response = await loginUser(loginPayload);
       await Swal.fire({
         title: "Welcome to Graz!",
         text: "Logged in Successfully",
@@ -37,9 +40,17 @@ export default function LoginPage() {
         confirmButtonColor: "#426B45",
       });
       resetForm();
-      reponse.user.role == "TUTOR"
+      response.user.role == "TUTOR"
         ? router.push("/dashboard/tutor")
         : router.push("/dashboard/student");
+      dispatch(
+        setUser({
+          id: response.user.id,
+          name: response.user.name,
+          email: response.user.email,
+          role: response.user.role,
+        }),
+      );
     } catch (error) {
       await Swal.fire({
         title: "Invalid credentials",

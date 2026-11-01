@@ -17,7 +17,7 @@ function Navbar() {
     <header className="w-full bg-background">
       <nav className="flex w-full items-center justify-between py-5 flex-wrap">
         {/* Brand */}
-        <Link href="/" className="text-xl font-semibold text-heading">
+        <Link href="/home" className="text-xl font-semibold text-heading">
           <span className=""> Learn Korean </span>
 
           <div className="text-primary text-xs uppercase">with {TUTOR_NAME}</div>

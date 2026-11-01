@@ -7,7 +7,7 @@ import StudentsListingSection from "@/features/dashboard/components/StudentsList
 import CoursesListingSection from "@/features/dashboard/components/CoursesListingSection";
 import QuickActionsSection from "@/features/dashboard/components/QuickActionsSection";
 
-const AppBody = () => {
+const TutorDashboard = () => {
   return (
     <div className="max-h-[calc(100vh-64px)] w-full bg-background p-6">
       <div>
@@ -33,4 +33,4 @@ const AppBody = () => {
   );
 };
 
-export default AppBody;
+export default TutorDashboard;

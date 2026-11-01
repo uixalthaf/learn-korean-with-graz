@@ -1,10 +1,16 @@
+"use client";
 import { Button } from "@/components/ui/Button/Button";
 import { TUTOR_NAME } from "@/config/tutorInfo";
 import { ArrowRight, MailIcon, VideotapeIcon } from "lucide-react";
 import getStartedBannerVector from "@/assets/images/get_started_banner_vector.png";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const navigate = useRouter();
+  const goToSignUpPage = () => {
+    navigate.push("/auth/signup");
+  };
   return (
     <div className="mb-6">
       <div
@@ -19,7 +25,7 @@ const Footer = () => {
           <h2 className="text-white!">Let's Make Korean a part of your story.</h2>
           <span>Join today and take the first step towards Korean learning.</span>
         </div>
-        <Button variant="secondary" size="sm">
+        <Button variant="secondary" size="sm" onClick={goToSignUpPage}>
           Get Started <ArrowRight />
         </Button>
       </div>
