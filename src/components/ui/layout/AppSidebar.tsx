@@ -16,7 +16,10 @@ import { TUTOR_NAME } from "@/config/tutorInfo";
 import Image from "next/image";
 import sidebarVector from "@/assets/images/sidebar_vector_illustration.png";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import logoutSession from "@/features/auth/logout/logout.api";
+import { clearUser } from "@/store/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const navigationItems = [
   { label: "Dashboard", href: "/tutor", icon: LayoutDashboard },
@@ -28,11 +31,17 @@ const navigationItems = [
   { label: "Messages", href: "/tutor/messages", icon: MailIcon },
   { label: "Settings", href: "/tutor/settings", icon: Settings },
 ];
-
 const AppSidebar = () => {
+  const dispatch = useAppDispatch();
+
   const navigate = useRouter();
-  const handleLogout = () => {
-    navigate.push("/home");
+  const handleLogout = async () => {
+    const success = await logoutSession();
+
+    if (success) {
+      dispatch(clearUser());
+      navigate.push("/home");
+    }
   };
   const userName = useAppSelector((state) => state.auth.user);
   return (

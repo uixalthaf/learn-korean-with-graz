@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { createHash, randomBytes } from "crypto";
 
 export async function POST(request: Request) {
   try {
@@ -48,8 +49,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Invalid email or password." }, { status: 401 });
     }
 
-    return NextResponse.json({
-      message: "Credentials verified successfully.",
+    const sessionToken = randomBytes(32).toString("hex");
+
+    const tokenHash = createHash("sha256").update(sessionToken).digest("hex");
+
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+    await prisma.session.create({
+      data: {
+        tokenHash,
+        userId: user.id,
+        expiresAt,
+      },
+    });
+    const response = NextResponse.json({
+      message: "Login successful.",
       user: {
         id: user.id,
         name: user.name,
@@ -57,6 +71,16 @@ export async function POST(request: Request) {
         role: user.role,
       },
     });
+
+    response.cookies.set("graz_session", sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      expires: expiresAt,
+    });
+
+    return response;
   } catch (error) {
     console.error("Login API error:", error);
 
