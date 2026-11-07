@@ -29,7 +29,7 @@ const tutorDashboardData = {
     },
     {
       id: "pending-assignments",
-      title: "Pending Assignments",
+      title: "Assignments",
       value: 8,
       change: "5",
       changeLabel: "awaiting review",

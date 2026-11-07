@@ -3,7 +3,7 @@ import tutorDashboardData from "@/app/dashboard/tutor/tutorDashboardData";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card/Card";
 import React, { useEffect, useState } from "react";
 import { getTutorDashboardData } from "../api/dashboard.api";
-import { FaceExpressionless, Mail } from "lucide-react";
+import { ArrowRight, FaceExpressionless, Mail } from "lucide-react";
 
 type Student = {
   id: string;
@@ -26,7 +26,14 @@ const StudentsListingSection = () => {
   }, []);
   return (
     <Card>
-      <CardHeader>Your Students</CardHeader>
+      <CardHeader>
+        <div className="w-100 flex items-center gap-2 justify-between">
+          Your Students
+          <a className="flex items-center gap-1 text-sm" href="/students">
+            View All <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+      </CardHeader>
       <CardBody>
         <div className="flex flex-col gap-2">
           {studentsData.map((student) => (

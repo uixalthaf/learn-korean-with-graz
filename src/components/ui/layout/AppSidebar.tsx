@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 
 const tutorNavigationItems = [
   { label: "Dashboard", href: "/dashboard/tutor", icon: LayoutDashboard },
-  { label: "Students", href: "/tutor/students", icon: Users },
+  { label: "Students", href: "/students", icon: Users },
   { label: "Courses", href: "/tutor/courses", icon: BookOpen },
   { label: "Group Sessions", href: "/tutor/sessions", icon: CalendarDays },
   { label: "Assignments", href: "/tutor/assignments", icon: ClipboardList },

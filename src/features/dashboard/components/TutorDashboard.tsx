@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import { TUTOR_NAME } from "@/config/tutorInfo";
 import StatisticsCard from "@/features/dashboard/components/StatisticsCard";
@@ -7,12 +8,18 @@ import StudentsListingSection from "@/features/dashboard/components/StudentsList
 import CoursesListingSection from "@/features/dashboard/components/CoursesListingSection";
 import QuickActionsSection from "@/features/dashboard/components/QuickActionsSection";
 import ContinueCard from "./ContinueCard";
+import { formatDate } from "@/lib/formatDate";
 
 const TutorDashboard = () => {
+  const [todaysDate, setTodaysDate] = useState("");
+
+  useEffect(() => {
+    setTodaysDate(formatDate(new Date()));
+  }, []);
   return (
     <div className="max-h-[calc(100vh-64px)] w-full bg-background p-6">
       <div>
-        <span>Thu 23 Oct 2026 </span>
+        <span>{todaysDate}</span>
         <h2 className="font-bold font-georgia text-2xl">
           Good Morning , <span>{TUTOR_NAME}</span>
         </h2>
