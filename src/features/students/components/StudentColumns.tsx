@@ -1,25 +1,17 @@
-import type { ColumnDef } from "@tanstack/react-table";
+import { createColumnHelper, tableFeatures } from "@tanstack/react-table";
 import type { Student } from "../api/students.api.types";
 
-export const studentColumns: ColumnDef<Student, unknown>[] = [
-  {
-    accessorKey: "name",
-    header: "Student",
-  },
-  {
-    accessorKey: "email",
+export const features = tableFeatures({});
+
+const columnHelper = createColumnHelper<typeof features, Student>();
+
+export const studentColumns = columnHelper.columns([
+  columnHelper.accessor("name", {
+    header: "Name",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("email", {
     header: "Email",
-  },
-  {
-    accessorKey: "enrolledCourses",
-    header: "Enrolled Courses",
-  },
-  {
-    accessorKey: "joinedAt",
-    header: "Joined Date",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-];
+    cell: (info) => info.getValue(),
+  }),
+]);

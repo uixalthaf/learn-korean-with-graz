@@ -1,14 +1,16 @@
 "use client";
 
-import { flexRender, useTable } from "@tanstack/react-table";
-import { studentColumns } from "./StudentColumns";
+import { useTable } from "@tanstack/react-table";
+import { studentColumns, features } from "./StudentColumns";
 import type { Student } from "../api/students.api.types";
 import { useState, useEffect } from "react";
 import { getTutorDashboardData } from "@/features/dashboard/api/dashboard.api";
 
 const StudentListingTable = () => {
   const [studentsData, setStudentsData] = useState<Student[]>([]);
+
   const table = useTable({
+    features,
     data: studentsData,
     columns: studentColumns,
   });
@@ -17,26 +19,26 @@ const StudentListingTable = () => {
     const fetchStudents = async () => {
       try {
         const response = await getTutorDashboardData();
-        console.log(studentsData);
         setStudentsData(response.students);
       } catch (error) {
-        console.log("error while feching student data", error);
+        console.error("Error while fetching student data:", error);
       }
     };
+
     fetchStudents();
   }, []);
 
+  const rows = table.getRowModel().rows;
+
   return (
-    <div className="overflow-hidden rounded-xl border border-stone-200 mt-4">
+    <div className="mt-4 overflow-hidden rounded-xl border border-stone-200">
       <table className="w-full text-left text-sm">
         <thead className="bg-stone-50">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th key={header.id} className="px-4 py-3 font-semibold">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.isPlaceholder ? null : <table.FlexRender header={header} />}
                 </th>
               ))}
             </tr>
@@ -44,23 +46,15 @@ const StudentListingTable = () => {
         </thead>
 
         <tbody>
-          {table.getRowModel().rows.map((row) => (
+          {rows.map((row) => (
             <tr key={row.id} className="border-t border-stone-200">
               {row.getAllCells().map((cell) => (
                 <td key={cell.id} className="px-4 py-3">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  <table.FlexRender cell={cell} />
                 </td>
               ))}
             </tr>
           ))}
-
-          {table.getRowModel().rows.length === 0 && (
-            <tr>
-              <td colSpan={studentColumns.length} className="px-4 py-8 text-center text-stone-500">
-                No students found.
-              </td>
-            </tr>
-          )}
         </tbody>
       </table>
     </div>
