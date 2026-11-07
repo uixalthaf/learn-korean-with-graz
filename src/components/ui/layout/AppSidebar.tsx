@@ -14,6 +14,9 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
+  ChevronRight,
+  ChevronLast,
+  ChevronLeft,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { TUTOR_NAME } from "@/config/tutorInfo";
@@ -64,7 +67,7 @@ const AppSidebar = () => {
   return (
     <aside
       className={`relative flex h-screen shrink-0 flex-col border-r border-stone-200 bg-background transition-[width,padding] duration-300 ease-in-out ${
-        isCollapsed ? "w-[50px] p-2" : "w-64 p-5"
+        isCollapsed ? "w-[60px] p-2" : "w-64 p-5"
       }`}
       style={{
         backgroundImage: isCollapsed ? "none" : `url(${sidebarVector.src})`,
@@ -73,15 +76,15 @@ const AppSidebar = () => {
         backgroundPosition: "0% 85%",
       }}
     >
-      {/* Centered Collapse Toggle */}
+      {/* Centered sidebar toggle */}
       <button
         type="button"
-        onClick={() => setIsCollapsed((prev) => !prev)}
-        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        onClick={() => setIsCollapsed(!isCollapsed)}
         title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        className="absolute -right-3 top-1/2 z-20 flex h-7 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-background text-stone-500 shadow-sm transition-colors hover:bg-emerald-50 hover:text-emerald-950"
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        className="absolute -right-3 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center cursor-pointer justify-center rounded-full border border-stone-200 bg-white text-stone-500 shadow-sm transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
       >
-        {isCollapsed ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}
+        {isCollapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
       </button>
 
       {/* Brand */}
