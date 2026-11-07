@@ -6,6 +6,7 @@ import GroupSessionsSection from "@/features/dashboard/components/GroupSessionsS
 import StudentsListingSection from "@/features/dashboard/components/StudentsListingSection";
 import CoursesListingSection from "@/features/dashboard/components/CoursesListingSection";
 import QuickActionsSection from "@/features/dashboard/components/QuickActionsSection";
+import ContinueCard from "./ContinueCard";
 
 const TutorDashboard = () => {
   return (
@@ -19,14 +20,17 @@ const TutorDashboard = () => {
       </div>
 
       <StatisticsCard />
+
       <div className="mt-4 flex gap-4">
+        <div className="h-full w-80">
+          {/* <CoursesListingSection /> hasnt been inlcuded in the dashboard yet, will be added later */}
+
+          <StudentsListingSection />
+        </div>
         <div className="flex-1 h-full">
+          <ContinueCard title="Continue Teaching" />
           {/* <GroupSessionsSection /> */}
           {/* <QuickActionsSection /> hasnt been inlcuded in the dashboard yet, will be added later */}
-        </div>
-        <div className=" flex-1 h-full">
-          {/* <CoursesListingSection /> hasnt been inlcuded in the dashboard yet, will be added later */}
-          <StudentsListingSection />
         </div>
       </div>
     </div>

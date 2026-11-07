@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardBody } from "@/components/ui/Card/Card
 import { useAppSelector } from "@/store/hooks";
 import koreanBookCat from "@/assets/images/korean_book_cat.png";
 import { Button } from "@/components/ui/Button/Button";
+import ContinueCard from "./ContinueCard";
 
 const StudentDashboard = () => {
   const user = useAppSelector((state) => state.auth.user);
@@ -47,25 +48,7 @@ const StudentDashboard = () => {
           Keep going! You're making great progress.
         </p>
       </section>
-      <Card
-        className="bg-primary text-white h-44 w-80"
-        style={{
-          backgroundImage: `url(${koreanBookCat.src})`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: " cover",
-        }}
-      >
-        <CardHeader>
-          <CardTitle className="!text-lg">Continue Learning</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Button variant="primary" size="sm" className="mt-4">
-            Continue
-            <Play className="ml-2 h-4 w-4" />
-          </Button>
-        </CardBody>
-      </Card>
+      <ContinueCard title="Continue Learning" />
     </div>
   );
 };

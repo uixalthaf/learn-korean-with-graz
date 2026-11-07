@@ -13,7 +13,13 @@ export const Card = ({ className, ...props }: DivProps) => (
 
 /** Top row of a card: put a CardTitle on the left and a link/button on the right. */
 export const CardHeader = ({ className, ...props }: DivProps) => (
-  <div className={cn("flex items-center justify-between gap-3 p-6 pb-3", className)} {...props} />
+  <div
+    className={cn(
+      "flex items-center justify-between gap-3 p-6 pb-3 text-base font-semibold",
+      className,
+    )}
+    {...props}
+  />
 );
 
 /** Card heading, e.g. "Today's sessions". */

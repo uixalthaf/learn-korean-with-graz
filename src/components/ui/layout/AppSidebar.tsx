@@ -11,7 +11,9 @@ import {
   MessagesSquare,
   MailIcon,
   LogOut,
+  User,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { TUTOR_NAME } from "@/config/tutorInfo";
 import Image from "next/image";
 import sidebarVector from "@/assets/images/sidebar_vector_illustration.png";
@@ -21,8 +23,8 @@ import logoutSession from "@/features/auth/logout/logout.api";
 import { clearUser } from "@/store/auth/authSlice";
 import { useDispatch } from "react-redux";
 
-const navigationItems = [
-  { label: "Dashboard", href: "/tutor", icon: LayoutDashboard },
+const tutorNavigationItems = [
+  { label: "Dashboard", href: "/dashboard/tutor", icon: LayoutDashboard },
   { label: "Students", href: "/tutor/students", icon: Users },
   { label: "Courses", href: "/tutor/courses", icon: BookOpen },
   { label: "Group Sessions", href: "/tutor/sessions", icon: CalendarDays },
@@ -31,6 +33,15 @@ const navigationItems = [
   { label: "Messages", href: "/tutor/messages", icon: MailIcon },
   { label: "Settings", href: "/tutor/settings", icon: Settings },
 ];
+
+const studentNavigationItems = [
+  { label: "Dashboard", href: "/dashboard/student", icon: LayoutDashboard },
+  { label: "Assignments", href: "/student/assignments", icon: ClipboardList },
+  { label: "Learning Materials", href: "/student/materials", icon: FolderOpen },
+  { label: "Messages", href: "/student/messages", icon: MailIcon },
+  { label: "Settings", href: "/student/settings", icon: Settings },
+];
+
 const AppSidebar = () => {
   const dispatch = useAppDispatch();
 
@@ -43,7 +54,10 @@ const AppSidebar = () => {
       navigate.push("/home");
     }
   };
-  const userName = useAppSelector((state) => state.auth.user);
+  const pathname = usePathname();
+
+  const user = useAppSelector((state) => state.auth.user);
+  const navigationItems = user?.role === "STUDENT" ? studentNavigationItems : tutorNavigationItems;
   return (
     <aside
       className="flex min-h-screen w-64 shrink-0 flex-col border-r border-stone-200 bg-background p-5"
@@ -71,7 +85,7 @@ const AppSidebar = () => {
                 <Link
                   href={item.href}
                   className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-                    item.href === "/tutor"
+                    pathname === item.href
                       ? "bg-primary text-white"
                       : "text-muted hover:bg-emerald-50 hover:text-emerald-950"
                   }`}
@@ -100,12 +114,12 @@ const AppSidebar = () => {
           <div className="min-w-0">
             <div className="truncate text-sm font-semibold text-stone-800 flex items-center gap-1.5">
               {/* <span className="h-2.5 w-2.5 bg-[green] rounded-full"></span> */}
-              {userName?.name}
+              {user?.name}
             </div>
             <p className="text-xs text-stone-500">
-              {userName?.role === "TUTOR"
+              {user?.role === "TUTOR"
                 ? "Tutor & Admin"
-                : userName?.role === "STUDENT"
+                : user?.role === "STUDENT"
                   ? "Student"
                   : "Guest"}
             </p>
