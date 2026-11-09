@@ -44,7 +44,13 @@ const studentNavigationItems = [
   { label: "Settings", href: "/student/settings", icon: Settings },
 ];
 
-const AppSidebar = () => {
+interface AppSidebarProps {
+  mobileNavOpen: boolean;
+  onNavigate: () => void;
+  onClose: () => void;
+}
+
+const AppSidebar = ({ mobileNavOpen, onNavigate, onClose }: AppSidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -66,9 +72,9 @@ const AppSidebar = () => {
 
   return (
     <aside
-      className={`relative flex h-screen shrink-0 flex-col border-r border-stone-200 bg-background transition-[width,padding] duration-300 ease-in-out ${
+      className={`dashboard-sidebar relative flex h-full shrink-0 flex-col border-r border-stone-200 bg-background transition-[width,padding,transform] duration-300 ease-in-out ${
         isCollapsed ? "w-[60px] p-2" : "w-64 p-5"
-      }`}
+      } ${mobileNavOpen ? "is-mobile-open" : ""}`}
       style={{
         backgroundImage: isCollapsed ? "none" : `url(${sidebarVector.src})`,
         backgroundSize: "140% auto",
@@ -85,6 +91,14 @@ const AppSidebar = () => {
         className="absolute -right-3 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center cursor-pointer justify-center rounded-full border border-stone-200 bg-white text-stone-500 shadow-sm transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
       >
         {isCollapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
+      </button>
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close navigation"
+        className="dashboard-mobile-close absolute right-3 top-3 rounded-lg p-2 text-muted"
+      >
+        <ChevronLeft size={20} />
       </button>
 
       {/* Brand */}
@@ -105,6 +119,7 @@ const AppSidebar = () => {
             return (
               <li key={item.href}>
                 <Link
+                  onClick={onNavigate}
                   href={item.href}
                   title={isCollapsed ? item.label : undefined}
                   aria-label={item.label}

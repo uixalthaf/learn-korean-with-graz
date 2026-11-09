@@ -19,7 +19,7 @@ const StatisticsCard = () => {
     fetchStatisticsData();
   }, []);
   return (
-    <div className="flex w-full gap-4 py-8 h-auto">
+    <div className="dashboard-statistics-grid grid w-full grid-cols-1 gap-3 py-6 sm:grid-cols-2 xl:grid-cols-4">
       {statisticsData.map((stat) => (
         <Card className={`p-4 flex-1 bg-${stat.color}`} key={stat.id}>
           <CardBody className="flex items-center gap-4">

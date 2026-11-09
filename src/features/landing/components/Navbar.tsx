@@ -15,7 +15,7 @@ function Navbar() {
   };
   return (
     <header className="w-full bg-background">
-      <nav className="flex w-full items-center justify-between py-5 flex-wrap">
+      <nav className="landing-navbar flex w-full items-center justify-between gap-4 py-4">
         {/* Brand */}
         <Link href="/home" className="text-xl font-semibold text-heading">
           <span className=""> Learn Korean </span>
@@ -24,7 +24,7 @@ function Navbar() {
         </Link>
 
         {/* Navigation links */}
-        <div className="flex gap-8 flex-wrap">
+        <div className="landing-nav-links flex gap-5 lg:gap-8">
           <Link href="/" className="text-sm text-foreground hover:text-primary">
             About
           </Link>
@@ -43,7 +43,7 @@ function Navbar() {
             FAQ
           </Link>
         </div>
-        <div className="flex items-center gap-8">
+        <div className="landing-nav-actions flex items-center gap-3 sm:gap-5">
           <Button variant="secondary" onClick={goToSignInPage}>
             Sign In
           </Button>

@@ -146,3 +146,211 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
+
+
+/* Responsive foundations */
+html,
+body {
+  min-width: 320px;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+.dashboard-sidebar {
+  z-index: 50;
+  min-width: 0;
+}
+
+.dashboard-mobile-close {
+  display: none;
+}
+
+.dashboard-menu-button {
+  display: none;
+}
+
+.dashboard-search {
+  width: min(24rem, 40vw);
+}
+
+.dashboard-content-grid > * {
+  min-width: 0;
+}
+
+.dashboard-statistics-grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .dashboard-shell {
+    min-height: 100dvh;
+  }
+
+  .dashboard-menu-button {
+    display: inline-flex;
+  }
+
+  .dashboard-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(18rem, calc(100vw - 3rem)) !important;
+    height: 100dvh;
+    padding: 1.25rem !important;
+    transform: translateX(-105%);
+    box-shadow: 0 12px 40px rgb(0 0 0 / 14%);
+  }
+
+  .dashboard-sidebar.is-mobile-open {
+    transform: translateX(0);
+  }
+
+  .dashboard-sidebar > button[title="Collapse sidebar"],
+  .dashboard-sidebar > button[title="Expand sidebar"] {
+    display: none;
+  }
+
+  .dashboard-mobile-close {
+    display: inline-flex;
+  }
+
+  .dashboard-sidebar > a {
+    padding-right: 2.5rem;
+  }
+
+  .dashboard-sidebar nav {
+    overflow-y: auto;
+  }
+
+  .dashboard-header {
+    height: 3.75rem;
+  }
+
+  .dashboard-search {
+    display: none;
+  }
+
+  .dashboard-schedule-button {
+    min-height: 2.5rem;
+    padding: 0.5rem 0.7rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .dashboard-schedule-button span {
+    display: none;
+  }
+
+  .dashboard-main {
+    padding: 0.875rem;
+  }
+
+  .dashboard-content-grid {
+    flex-direction: column;
+  }
+
+  .dashboard-students-panel,
+  .dashboard-primary-panel {
+    width: 100%;
+  }
+
+  .dashboard-continue-card {
+    max-width: none;
+  }
+
+  .landing-navbar {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .landing-navbar > a {
+    flex: 1 1 auto;
+  }
+
+  .landing-nav-links {
+    order: 3;
+    width: 100%;
+    gap: 1.25rem;
+    overflow-x: auto;
+    padding: 0.25rem 0 0.5rem;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .landing-nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .landing-nav-actions {
+    gap: 0.5rem;
+  }
+
+  .landing-nav-actions button {
+    min-height: 2.5rem;
+    padding: 0.55rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 9vw, 2.7rem);
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+  }
+
+  input,
+  select,
+  textarea {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-statistics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-main {
+    padding: 0.75rem;
+  }
+
+  .landing-nav-actions button:first-child {
+    display: none;
+  }
+
+  .landing-nav-actions button {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dashboard-sidebar {
+    width: 13rem !important;
+    padding: 1rem !important;
+  }
+
+  .dashboard-content-grid {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-students-panel {
+    width: min(18rem, 40%);
+  }
+}

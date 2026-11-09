@@ -8,7 +8,7 @@ const Input = ({ placeholder }: InputProps) => {
       <Search className="absolute top-3 left-2" size={16} />
       <input
         placeholder={placeholder || "Search..."}
-        className=" p-2 rounded-lg min-w-96 pl-8 border border-border"
+        className="w-full min-w-0 rounded-lg border border-border bg-card p-2 pl-8 text-sm outline-none focus:border-primary"
       />
     </div>
   );

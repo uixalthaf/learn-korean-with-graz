@@ -1,17 +1,33 @@
-import { Bell, Plus } from "lucide-react";
+"use client";
+
+import { Bell, Menu, Plus } from "lucide-react";
 import { Button } from "../Button/Button";
 import Input from "../Input/Input";
 
-const AppHeader = () => {
+const AppHeader = ({ onMenuClick }: { onMenuClick: () => void }) => {
   return (
-    <header className="flex h-16 w-full items-center justify-between border-b border-border bg-background px-4">
-      <Input placeholder="Search Students..." />
-      <div className="flex items-center gap-4">
-        <Button variant="primary">
+    <header className="dashboard-header flex h-16 w-full shrink-0 items-center justify-between gap-3 border-b border-border bg-background px-3 sm:px-4">
+      <div className="flex min-w-0 items-center gap-3">
+        <button
+          type="button"
+          onClick={onMenuClick}
+          aria-label="Open navigation"
+          className="dashboard-menu-button inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border text-foreground md:hidden"
+        >
+          <Menu size={20} />
+        </button>
+        <div className="dashboard-search min-w-0">
+          <Input placeholder="Search Students..." />
+        </div>
+      </div>
+      <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+        <Button variant="primary" className="dashboard-schedule-button">
           <Plus size={16} />
-          Schedule a session
+          <span>Schedule a session</span>
         </Button>
-        <Bell size={20} />
+        <button type="button" aria-label="Notifications" className="rounded-lg p-2 text-foreground hover:bg-surface">
+          <Bell size={20} />
+        </button>
       </div>
     </header>
   );

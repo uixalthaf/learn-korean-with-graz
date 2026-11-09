@@ -5,7 +5,7 @@ import StudentListingTable from "@/features/students/components/StudentListingTa
 const page = () => {
   return (
     <DashboardLayout>
-      <div className="max-h-[calc(100vh-64px)] w-full bg-background p-6">
+      <div className="w-full bg-background p-1 sm:p-2 md:p-4">
         <Card>
           <CardHeader>
             <h2 className="text-lg font-semibold">Your Students</h2>

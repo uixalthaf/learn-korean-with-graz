@@ -17,10 +17,10 @@ const TutorDashboard = () => {
     setTodaysDate(formatDate(new Date()));
   }, []);
   return (
-    <div className="max-h-[calc(100vh-64px)] w-full bg-background p-6">
+    <div className="w-full bg-background p-1 sm:p-2 md:p-4">
       <div>
         <span>{todaysDate}</span>
-        <h2 className="font-bold font-georgia text-2xl">
+        <h2 className="font-bold font-georgia text-xl sm:text-2xl">
           Good Morning , <span>{TUTOR_NAME}</span>
         </h2>
         <span>Today you are teaching 3 group classes Let's have a greay day.</span>
@@ -28,13 +28,13 @@ const TutorDashboard = () => {
 
       <StatisticsCard />
 
-      <div className="mt-4 flex gap-4">
-        <div className="h-full w-80">
+      <div className="dashboard-content-grid mt-4 flex gap-4">
+        <div className="dashboard-students-panel h-full w-80 min-w-0">
           {/* <CoursesListingSection /> hasnt been inlcuded in the dashboard yet, will be added later */}
 
           <StudentsListingSection />
         </div>
-        <div className="flex-1 h-full">
+        <div className="dashboard-primary-panel h-full min-w-0 flex-1">
           <ContinueCard title="Continue Teaching" />
           {/* <GroupSessionsSection /> */}
           {/* <QuickActionsSection /> hasnt been inlcuded in the dashboard yet, will be added later */}

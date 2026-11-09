@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button/Button";
 const ContinueCard = ({ title = "Continue Learning" }: { title?: string }) => {
   return (
     <Card
-      className="bg-primary text-white h-44 w-80"
+      className="dashboard-continue-card h-44 w-full max-w-2xl bg-primary text-white"
       style={{
         backgroundImage: `url(${koreanBookCat.src})`,
         backgroundPosition: "center",

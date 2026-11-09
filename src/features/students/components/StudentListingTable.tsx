@@ -31,8 +31,8 @@ const StudentListingTable = () => {
   const rows = table.getRowModel().rows;
 
   return (
-    <div className="mt-4 overflow-hidden rounded-xl border border-stone-200">
-      <table className="w-full text-left text-sm">
+    <div className="mt-4 max-w-full overflow-x-auto rounded-xl border border-stone-200">
+      <table className="w-full min-w-[560px] text-left text-sm">
         <thead className="bg-stone-50">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
