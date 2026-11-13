@@ -14,7 +14,11 @@ export async function getConversationMessages(conversationId: string) {
   const response = await axiosInstance.get<ConversationMessagesResponse>(
     `/conversations/${encodeURIComponent(conversationId)}/messages`,
   );
-  return response.data.messages;
+  return response.data;
+}
+
+export async function updateTypingStatus(conversationId: string, isTyping: boolean) {
+  await axiosInstance.post(`/conversations/${encodeURIComponent(conversationId)}/typing`, { isTyping });
 }
 
 export async function sendConversationMessage(conversationId: string, body: string) {

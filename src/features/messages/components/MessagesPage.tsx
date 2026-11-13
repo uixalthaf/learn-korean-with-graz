@@ -15,6 +15,7 @@ import {
   getConversationMessages,
   getConversations,
   sendConversationMessage,
+  updateTypingStatus,
   updatePresence,
 } from "../api/messages.api";
 import type {
@@ -28,6 +29,7 @@ type Filter = "All" | "Unread";
 export default function MessagesPage() {
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
+  const [peerIsTyping, setPeerIsTyping] = useState(false);
   const [role, setRole] = useState<MessagingRole | null>(null);
   const [activeId, setActiveId] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
@@ -45,6 +47,8 @@ export default function MessagesPage() {
   const soundEnabledRef = useRef(true);
   const seenMessageIdsRef = useRef(new Set<string>());
   const conversationListLoadedRef = useRef(false);
+  const typingTimerRef = useRef<number | null>(null);
+  const lastTypingSentRef = useRef(0);
 
   const activeConversation = conversations.find(({ id }) => id === activeId) ?? null;
   const loadingMessages = Boolean(activeId) && loadedConversationId !== activeId;
@@ -135,14 +139,15 @@ export default function MessagesPage() {
       try {
         const result = await getConversationMessages(activeId);
         if (!mounted) return;
-        for (const message of result) {
+        for (const message of result.messages) {
           if (!initialLoad && message.senderId === activeConversation?.peer.id && !seenMessageIdsRef.current.has(message.id)) {
             playNotificationSound(audioContextRef.current, soundEnabledRef.current);
           }
           seenMessageIdsRef.current.add(message.id);
         }
         initialLoad = false;
-        setMessages(result);
+        setMessages(result.messages);
+        setPeerIsTyping(result.peerIsTyping);
         setMessageError(false);
       } catch {
         if (mounted) setMessageError(true);
@@ -159,6 +164,36 @@ export default function MessagesPage() {
     };
   }, [activeConversation?.peer.id, activeId]);
 
+  useEffect(() => {
+    return () => {
+      if (typingTimerRef.current !== null) window.clearTimeout(typingTimerRef.current);
+      if (activeId) void updateTypingStatus(activeId, false).catch(() => undefined);
+    };
+  }, [activeId]);
+
+  function handleDraftChange(value: string) {
+    setDraft(value);
+    if (!activeId) return;
+
+    if (typingTimerRef.current !== null) window.clearTimeout(typingTimerRef.current);
+    if (!value.trim()) {
+      void updateTypingStatus(activeId, false).catch(() => undefined);
+      lastTypingSentRef.current = 0;
+      return;
+    }
+
+    const now = Date.now();
+    if (now - lastTypingSentRef.current >= 1_000) {
+      lastTypingSentRef.current = now;
+      void updateTypingStatus(activeId, true).catch(() => undefined);
+    }
+    typingTimerRef.current = window.setTimeout(() => {
+      void updateTypingStatus(activeId, false).catch(() => undefined);
+      lastTypingSentRef.current = 0;
+      typingTimerRef.current = null;
+    }, 2_500);
+  }
+
   async function handleSend(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const body = draft.trim();
@@ -166,6 +201,10 @@ export default function MessagesPage() {
 
     setSending(true);
     setSendError(false);
+    if (typingTimerRef.current !== null) window.clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = null;
+    void updateTypingStatus(activeConversation.id, false).catch(() => undefined);
+    lastTypingSentRef.current = 0;
     try {
       const message = await sendConversationMessage(activeConversation.id, body);
       seenMessageIdsRef.current.add(message.id);
@@ -230,7 +269,7 @@ export default function MessagesPage() {
               <li key={conversation.id}>
                 <button
                   type="button"
-                  onClick={() => { setMessages([]); setActiveId(conversation.id); }}
+                  onClick={() => { setMessages([]); setPeerIsTyping(false); setActiveId(conversation.id); }}
                   aria-current={conversation.id === activeId ? "true" : undefined}
                   className={`flex w-full cursor-pointer items-center gap-3 px-4 py-4 text-left transition-colors sm:px-5 ${conversation.id === activeId ? "bg-accent-background" : "hover:bg-background"}`}
                 >
@@ -271,7 +310,7 @@ export default function MessagesPage() {
           {activeConversation ? (
             <>
               <header className="flex shrink-0 items-center gap-3 border-b border-border px-4 py-2.5 sm:px-6 xl:px-8">
-                <button type="button" onClick={() => { setMessages([]); setActiveId(""); }} aria-label="Back to conversations" className="cursor-pointer rounded-lg p-2 text-muted hover:bg-surface md:hidden"><ArrowLeft size={18} /></button>
+                <button type="button" onClick={() => { setMessages([]); setPeerIsTyping(false); setActiveId(""); }} aria-label="Back to conversations" className="cursor-pointer rounded-lg p-2 text-muted hover:bg-surface md:hidden"><ArrowLeft size={18} /></button>
                 <Avatar name={activeConversation.peer.name} tone={avatarTone(activeConversation.peer.name)} isOnline={activeConversation.peer.isOnline} />
                 <div className="min-w-0 flex-1">
                   <h5 className="w-fit max-w-full truncate rounded-lg bg-accent-background/60 px-2.5 py-0.5 text-sm font-medium text-heading">{activeConversation.peer.name}</h5>
@@ -305,6 +344,16 @@ export default function MessagesPage() {
                     </div>
                   );
                 })}
+                {peerIsTyping && (
+                  <p aria-live="polite" className="mr-auto flex items-center gap-2 rounded-2xl rounded-bl-md border border-border bg-white px-3 py-2 text-xs text-muted shadow-sm">
+                    <span aria-hidden="true" className="flex items-center gap-1">
+                      <span className="size-1.5 animate-pulse rounded-full bg-primary motion-reduce:animate-none" />
+                      <span className="size-1.5 animate-pulse rounded-full bg-primary [animation-delay:150ms] motion-reduce:animate-none" />
+                      <span className="size-1.5 animate-pulse rounded-full bg-primary [animation-delay:300ms] motion-reduce:animate-none" />
+                    </span>
+                    {activeConversation.peer.name} is typing…
+                  </p>
+                )}
                 {messageError && <p role="alert" className="mx-auto rounded-lg bg-white px-3 py-2 text-sm text-red-700">Could not refresh messages. Your messages will retry automatically.</p>}
               </div>
 
@@ -314,7 +363,7 @@ export default function MessagesPage() {
                   id="message-draft"
                   value={draft}
                   maxLength={5000}
-                  onChange={(event) => setDraft(event.target.value)}
+                  onChange={(event) => handleDraftChange(event.target.value)}
                   placeholder="Type a message..."
                   className="h-12 min-w-0 flex-1 rounded-full border border-border bg-background px-5 text-foreground outline-none placeholder:text-muted focus:border-primary"
                 />

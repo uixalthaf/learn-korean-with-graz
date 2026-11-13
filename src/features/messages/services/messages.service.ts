@@ -60,7 +60,7 @@ export async function listConversationMessages(userId: string, conversationId: s
       id: conversationId,
       OR: [{ studentId: userId }, { tutorId: userId }],
     },
-    select: { id: true },
+    select: { id: true, studentId: true, tutorTypingAt: true, studentTypingAt: true },
   });
 
   if (!conversation) return null;
@@ -90,7 +90,28 @@ export async function listConversationMessages(userId: string, conversationId: s
     },
   });
 
-  return messages.reverse().map(mapMessage);
+  const peerTypingAt = userId === conversation.studentId
+    ? conversation.tutorTypingAt
+    : conversation.studentTypingAt;
+
+  return {
+    messages: messages.reverse().map(mapMessage),
+    peerIsTyping: peerTypingAt !== null && Date.now() - peerTypingAt.getTime() < 4_000,
+  };
+}
+
+export async function updateConversationTyping(
+  userId: string,
+  role: MessagingRole,
+  conversationId: string,
+  isTyping: boolean,
+) {
+  const timestamp = isTyping ? new Date() : null;
+  const updatedRows = role === "STUDENT"
+    ? await prisma.$executeRaw`UPDATE "Conversation" SET "studentTypingAt" = ${timestamp} WHERE "id" = ${conversationId} AND "studentId" = ${userId}`
+    : await prisma.$executeRaw`UPDATE "Conversation" SET "tutorTypingAt" = ${timestamp} WHERE "id" = ${conversationId} AND "tutorId" = ${userId}`;
+
+  return updatedRows === 1;
 }
 
 export async function createConversationMessage(

@@ -15,12 +15,12 @@ export async function GET(_request: Request, context: RouteContext) {
     }
 
     const { conversationId } = await context.params;
-    const messages = await listConversationMessages(session.user.id, conversationId);
-    if (!messages) {
+    const conversation = await listConversationMessages(session.user.id, conversationId);
+    if (!conversation) {
       return NextResponse.json({ message: "Conversation not found." }, { status: 404 });
     }
 
-    return NextResponse.json({ messages });
+    return NextResponse.json(conversation);
   } catch (error) {
     console.error("List conversation messages error:", error);
     return NextResponse.json({ message: "Unable to load messages." }, { status: 500 });

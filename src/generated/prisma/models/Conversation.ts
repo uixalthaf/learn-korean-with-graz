@@ -28,6 +28,8 @@ export type ConversationMinAggregateOutputType = {
   id: string | null
   studentId: string | null
   tutorId: string | null
+  studentTypingAt: Date | null
+  tutorTypingAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -36,6 +38,8 @@ export type ConversationMaxAggregateOutputType = {
   id: string | null
   studentId: string | null
   tutorId: string | null
+  studentTypingAt: Date | null
+  tutorTypingAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +48,8 @@ export type ConversationCountAggregateOutputType = {
   id: number
   studentId: number
   tutorId: number
+  studentTypingAt: number
+  tutorTypingAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -54,6 +60,8 @@ export type ConversationMinAggregateInputType = {
   id?: true
   studentId?: true
   tutorId?: true
+  studentTypingAt?: true
+  tutorTypingAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -62,6 +70,8 @@ export type ConversationMaxAggregateInputType = {
   id?: true
   studentId?: true
   tutorId?: true
+  studentTypingAt?: true
+  tutorTypingAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -70,6 +80,8 @@ export type ConversationCountAggregateInputType = {
   id?: true
   studentId?: true
   tutorId?: true
+  studentTypingAt?: true
+  tutorTypingAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -151,6 +163,8 @@ export type ConversationGroupByOutputType = {
   id: string
   studentId: string
   tutorId: string
+  studentTypingAt: Date | null
+  tutorTypingAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: ConversationCountAggregateOutputType | null
@@ -180,6 +194,8 @@ export type ConversationWhereInput = {
   id?: Prisma.StringFilter<"Conversation"> | string
   studentId?: Prisma.UuidFilter<"Conversation"> | string
   tutorId?: Prisma.UuidFilter<"Conversation"> | string
+  studentTypingAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
+  tutorTypingAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Conversation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Conversation"> | Date | string
   student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -191,6 +207,8 @@ export type ConversationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   tutorId?: Prisma.SortOrder
+  studentTypingAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tutorTypingAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   student?: Prisma.UserOrderByWithRelationInput
@@ -206,6 +224,8 @@ export type ConversationWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ConversationWhereInput | Prisma.ConversationWhereInput[]
   studentId?: Prisma.UuidFilter<"Conversation"> | string
   tutorId?: Prisma.UuidFilter<"Conversation"> | string
+  studentTypingAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
+  tutorTypingAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Conversation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Conversation"> | Date | string
   student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -217,6 +237,8 @@ export type ConversationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   tutorId?: Prisma.SortOrder
+  studentTypingAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tutorTypingAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ConversationCountOrderByAggregateInput
@@ -231,12 +253,16 @@ export type ConversationScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Conversation"> | string
   studentId?: Prisma.UuidWithAggregatesFilter<"Conversation"> | string
   tutorId?: Prisma.UuidWithAggregatesFilter<"Conversation"> | string
+  studentTypingAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+  tutorTypingAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Conversation"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Conversation"> | Date | string
 }
 
 export type ConversationCreateInput = {
   id?: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.UserCreateNestedOneWithoutStudentConversationsInput
@@ -248,6 +274,8 @@ export type ConversationUncheckedCreateInput = {
   id?: string
   studentId: string
   tutorId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutConversationInput
@@ -255,6 +283,8 @@ export type ConversationUncheckedCreateInput = {
 
 export type ConversationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.UserUpdateOneRequiredWithoutStudentConversationsNestedInput
@@ -266,6 +296,8 @@ export type ConversationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   tutorId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.MessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -275,12 +307,16 @@ export type ConversationCreateManyInput = {
   id?: string
   studentId: string
   tutorId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ConversationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -289,6 +325,8 @@ export type ConversationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   tutorId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -312,6 +350,8 @@ export type ConversationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   tutorId?: Prisma.SortOrder
+  studentTypingAt?: Prisma.SortOrder
+  tutorTypingAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -320,6 +360,8 @@ export type ConversationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   tutorId?: Prisma.SortOrder
+  studentTypingAt?: Prisma.SortOrder
+  tutorTypingAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -328,6 +370,8 @@ export type ConversationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   tutorId?: Prisma.SortOrder
+  studentTypingAt?: Prisma.SortOrder
+  tutorTypingAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -437,6 +481,8 @@ export type ConversationUpdateOneRequiredWithoutMessagesNestedInput = {
 
 export type ConversationCreateWithoutStudentInput = {
   id?: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tutor: Prisma.UserCreateNestedOneWithoutTutorConversationsInput
@@ -446,6 +492,8 @@ export type ConversationCreateWithoutStudentInput = {
 export type ConversationUncheckedCreateWithoutStudentInput = {
   id?: string
   tutorId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutConversationInput
@@ -463,6 +511,8 @@ export type ConversationCreateManyStudentInputEnvelope = {
 
 export type ConversationCreateWithoutTutorInput = {
   id?: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.UserCreateNestedOneWithoutStudentConversationsInput
@@ -472,6 +522,8 @@ export type ConversationCreateWithoutTutorInput = {
 export type ConversationUncheckedCreateWithoutTutorInput = {
   id?: string
   studentId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutConversationInput
@@ -510,6 +562,8 @@ export type ConversationScalarWhereInput = {
   id?: Prisma.StringFilter<"Conversation"> | string
   studentId?: Prisma.UuidFilter<"Conversation"> | string
   tutorId?: Prisma.UuidFilter<"Conversation"> | string
+  studentTypingAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
+  tutorTypingAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Conversation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Conversation"> | Date | string
 }
@@ -532,6 +586,8 @@ export type ConversationUpdateManyWithWhereWithoutTutorInput = {
 
 export type ConversationCreateWithoutMessagesInput = {
   id?: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.UserCreateNestedOneWithoutStudentConversationsInput
@@ -542,6 +598,8 @@ export type ConversationUncheckedCreateWithoutMessagesInput = {
   id?: string
   studentId: string
   tutorId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -564,6 +622,8 @@ export type ConversationUpdateToOneWithWhereWithoutMessagesInput = {
 
 export type ConversationUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.UserUpdateOneRequiredWithoutStudentConversationsNestedInput
@@ -574,6 +634,8 @@ export type ConversationUncheckedUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   tutorId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -581,6 +643,8 @@ export type ConversationUncheckedUpdateWithoutMessagesInput = {
 export type ConversationCreateManyStudentInput = {
   id?: string
   tutorId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -588,12 +652,16 @@ export type ConversationCreateManyStudentInput = {
 export type ConversationCreateManyTutorInput = {
   id?: string
   studentId: string
+  studentTypingAt?: Date | string | null
+  tutorTypingAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ConversationUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tutor?: Prisma.UserUpdateOneRequiredWithoutTutorConversationsNestedInput
@@ -603,6 +671,8 @@ export type ConversationUpdateWithoutStudentInput = {
 export type ConversationUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tutorId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.MessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -611,12 +681,16 @@ export type ConversationUncheckedUpdateWithoutStudentInput = {
 export type ConversationUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tutorId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ConversationUpdateWithoutTutorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.UserUpdateOneRequiredWithoutStudentConversationsNestedInput
@@ -626,6 +700,8 @@ export type ConversationUpdateWithoutTutorInput = {
 export type ConversationUncheckedUpdateWithoutTutorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.MessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -634,6 +710,8 @@ export type ConversationUncheckedUpdateWithoutTutorInput = {
 export type ConversationUncheckedUpdateManyWithoutTutorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tutorTypingAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -673,6 +751,8 @@ export type ConversationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   studentId?: boolean
   tutorId?: boolean
+  studentTypingAt?: boolean
+  tutorTypingAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -685,6 +765,8 @@ export type ConversationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   studentId?: boolean
   tutorId?: boolean
+  studentTypingAt?: boolean
+  tutorTypingAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -695,6 +777,8 @@ export type ConversationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   studentId?: boolean
   tutorId?: boolean
+  studentTypingAt?: boolean
+  tutorTypingAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -705,11 +789,13 @@ export type ConversationSelectScalar = {
   id?: boolean
   studentId?: boolean
   tutorId?: boolean
+  studentTypingAt?: boolean
+  tutorTypingAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "tutorId" | "createdAt" | "updatedAt", ExtArgs["result"]["conversation"]>
+export type ConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "tutorId" | "studentTypingAt" | "tutorTypingAt" | "createdAt" | "updatedAt", ExtArgs["result"]["conversation"]>
 export type ConversationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tutor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -736,6 +822,8 @@ export type $ConversationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     studentId: string
     tutorId: string
+    studentTypingAt: Date | null
+    tutorTypingAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["conversation"]>
@@ -1167,6 +1255,8 @@ export interface ConversationFieldRefs {
   readonly id: Prisma.FieldRef<"Conversation", 'String'>
   readonly studentId: Prisma.FieldRef<"Conversation", 'String'>
   readonly tutorId: Prisma.FieldRef<"Conversation", 'String'>
+  readonly studentTypingAt: Prisma.FieldRef<"Conversation", 'DateTime'>
+  readonly tutorTypingAt: Prisma.FieldRef<"Conversation", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Conversation", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Conversation", 'DateTime'>
 }

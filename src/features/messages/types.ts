@@ -31,4 +31,5 @@ export interface ConversationsResponse {
 
 export interface ConversationMessagesResponse {
   messages: ConversationMessage[];
+  peerIsTyping: boolean;
 }

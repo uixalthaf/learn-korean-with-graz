@@ -83,14 +83,16 @@ model ClassEnrollment {
 }
 
 model Conversation {
-  id        String   @id @default(cuid())
-  studentId String   @db.Uuid
-  tutorId   String   @db.Uuid
-  student   User     @relation("ConversationStudent", fields: [studentId], references: [id], onDelete: Cascade)
-  tutor     User     @relation("ConversationTutor", fields: [tutorId], references: [id], onDelete: Cascade)
-  messages  Message[]
-  createdAt DateTime @default(now()) @db.Timestamptz(3)
-  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  id              String    @id @default(cuid())
+  studentId       String    @db.Uuid
+  tutorId         String    @db.Uuid
+  student         User      @relation("ConversationStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  tutor           User      @relation("ConversationTutor", fields: [tutorId], references: [id], onDelete: Cascade)
+  messages        Message[]
+  studentTypingAt DateTime? @db.Timestamptz(3)
+  tutorTypingAt   DateTime? @db.Timestamptz(3)
+  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(3)
 
   @@unique([studentId, tutorId])
   @@index([tutorId, updatedAt])
