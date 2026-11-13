@@ -1,6 +1,5 @@
 import { requireRole } from "@/lib/requiresRole";
 import ForbiddenAccess from "@/components/shared/errors/ForbiddenAccess";
-import DashboardLayout from "@/components/ui/layout/layout";
 import TutorDashboard from "@/features/dashboard/components/TutorDashboard";
 
 const Page = async () => {
@@ -10,11 +9,7 @@ const Page = async () => {
     return <ForbiddenAccess dashboardHref={dashboardHref} />;
   }
 
-  return (
-    <DashboardLayout>
-      <TutorDashboard />
-    </DashboardLayout>
-  );
+  return <TutorDashboard />;
 };
 
 export default Page;

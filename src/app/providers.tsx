@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 
-import { makeStore, type AppStore } from "@/store/store";
+import { makeStore } from "@/store/store";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser, clearUser } from "@/store/auth/authSlice";
 
@@ -48,15 +48,7 @@ function AuthSessionRestorer() {
 }
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const [store, setStore] = useState<AppStore | null>(null);
-
-  useEffect(() => {
-    setStore(makeStore());
-  }, []);
-
-  if (!store) {
-    return null;
-  }
+  const [store] = useState(makeStore);
 
   return (
     <Provider store={store}>
