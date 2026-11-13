@@ -10,7 +10,7 @@ const reviews = [
   },
   {
     quote:
-      "I enjoy learning useful expressions that I can bring into everyday conversations. The cultural examples make each lesson engaging and memorable.",
+      "Tutor Graz is Amazing.I enjoy learning useful expressions that I can bring into everyday conversations. The cultural examples make each lesson engaging and memorable.",
     name: "Stephan",
     detail: "Conversation practice",
     tone: "bg-[#f4e4d5]",
@@ -26,27 +26,36 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <section id="reviews" className="scroll-mt-24 mt-14 rounded-3xl bg-[#f2eee5] px-5 py-9 sm:px-8 sm:py-11">
+    <section
+      id="reviews"
+      className="scroll-mt-24 mt-14 rounded-3xl bg-[#f2eee5] px-5 py-9 sm:px-8 sm:py-11"
+    >
       <div className="mx-auto max-w-2xl text-center">
-        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Student reviews</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Student reviews
+        </span>
         <h3 className="mt-2">Small steps. Real progress.</h3>
-        <p className="mt-3 text-sm text-muted">
-          Draft review copy—please confirm each quote with the student before publishing.
-        </p>
       </div>
 
       <div className="mt-7 grid gap-4 md:grid-cols-3">
         {reviews.map((review) => (
-          <article key={review.name} className="flex h-full flex-col rounded-2xl border border-border/80 bg-background p-5 shadow-sm sm:p-6">
+          <article
+            key={review.name}
+            className="flex h-full flex-col rounded-2xl border border-border/80 bg-background p-5 shadow-sm sm:p-6"
+          >
             <div className="flex items-center justify-between">
               <span className="flex size-9 items-center justify-center rounded-full bg-accent-background/50 text-primary">
                 <Quote size={17} fill="currentColor" aria-hidden="true" />
               </span>
-              <span className="ml-2 rounded-full bg-surface px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">Draft</span>
             </div>
-            <blockquote className="mt-4 flex-1 text-sm leading-6 text-foreground">“{review.quote}”</blockquote>
+            <blockquote className="mt-4 flex-1 text-sm leading-6 text-foreground">
+              “{review.quote}”
+            </blockquote>
             <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
-              <span className={`flex size-10 items-center justify-center rounded-full text-sm font-semibold text-primary ${review.tone}`} aria-hidden="true">
+              <span
+                className={`flex size-10 items-center justify-center rounded-full text-sm font-semibold text-primary ${review.tone}`}
+                aria-hidden="true"
+              >
                 {review.name.slice(0, 1)}
               </span>
               <div>
