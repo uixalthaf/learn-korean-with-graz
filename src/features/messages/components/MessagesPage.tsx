@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import {
@@ -43,6 +44,7 @@ export default function MessagesPage() {
   const [sending, setSending] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
   const [pageError, setPageError] = useState(false);
+  const [conversationRetryKey, setConversationRetryKey] = useState(0);
   const [messageError, setMessageError] = useState(false);
   const [sendError, setSendError] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -84,7 +86,7 @@ export default function MessagesPage() {
 
     async function refreshConversations() {
       try {
-        const result = await getConversations();
+        const result = await getConversationsWithRetry();
         if (!mounted) return;
         for (const conversation of result.conversations) {
           const lastMessage = conversation.lastMessage;
@@ -118,7 +120,7 @@ export default function MessagesPage() {
       mounted = false;
       window.clearInterval(intervalId);
     };
-  }, []);
+  }, [conversationRetryKey]);
 
   useEffect(() => {
     const prepareAudio = () => {
@@ -307,7 +309,7 @@ export default function MessagesPage() {
   function retryLoading() {
     setLoading(true);
     setPageError(false);
-    window.location.reload();
+    setConversationRetryKey((key) => key + 1);
   }
 
   return (
@@ -580,5 +582,21 @@ function playNotificationSound(context: AudioContext | null, enabled: boolean) {
     void context.resume().then(play).catch(() => undefined);
   } else {
     play();
+  }
+}
+
+async function getConversationsWithRetry() {
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      return await getConversations();
+    } catch (error) {
+      const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+      const canRetry = status === undefined || status === 429 || status >= 500;
+      if (!canRetry || attempt >= 2) throw error;
+
+      await new Promise<void>((resolve) => {
+        window.setTimeout(resolve, 300 * 2 ** attempt);
+      });
+    }
   }
 }
