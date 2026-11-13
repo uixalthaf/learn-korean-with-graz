@@ -14,6 +14,7 @@ export default function SignUpPage() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const resetForm = () => {
     setName("");
     setEmail("");
@@ -29,12 +30,9 @@ export default function SignUpPage() {
     }
 
     setError("");
-    const payload = { name, email, password };
-    console.log("api ran");
+    setIsLoading(true);
     try {
-      console.log("Calling signup API...");
-
-      const response = await signupUser(payload);
+      await signupUser({ name, email, password });
 
       await Swal.fire({
         title: "Welcome to Graz!",
@@ -43,20 +41,18 @@ export default function SignUpPage() {
         confirmButtonText: "Continue to Sign In",
         confirmButtonColor: "#426B45",
       });
-    } catch (error) {
-      console.error("Signup failed:", error);
+      resetForm();
+    } catch {
       setError("Failed to create account. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    // TODO: Connect to the registration API.
-    console.log({ name, email, password, acceptedTerms });
-    resetForm();
   }
 
   return (
     <div className="w-full">
       <div className="mb-8">
-        <p className="mb-3 text-sm font-medium text-primary">Let's begin</p>
+        <p className="mb-3 text-sm font-medium text-primary">Let&apos;s begin</p>
 
         <h2 className="text-3xl font-semibold">Create your account</h2>
 
@@ -169,8 +165,8 @@ export default function SignUpPage() {
           </span>
         </label>
 
-        <Button type="submit" size="lg" className="w-full" variant="primary">
-          Create account
+        <Button type="submit" size="lg" className="w-full" variant="primary" disabled={isLoading}>
+          {isLoading ? "Creating account…" : "Create account"}
         </Button>
       </form>
 

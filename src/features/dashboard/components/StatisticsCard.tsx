@@ -4,9 +4,9 @@ import { Card, CardBody } from "@/components/ui/Card/Card";
 import { Paperclip } from "lucide-react";
 
 import { getTutorDashboardData } from "../api/dashboard.api";
-import type { StatisticsDataInterface } from "../api/dashboard.api.types";
+import type { DashboardStatistic } from "../api/dashboard.api.types";
 const StatisticsCard = () => {
-  const [statisticsData, setStatisticsData] = React.useState<StatisticsDataInterface[]>([]);
+  const [statisticsData, setStatisticsData] = React.useState<DashboardStatistic[]>([]);
   useEffect(() => {
     async function fetchStatisticsData() {
       try {
@@ -21,7 +21,7 @@ const StatisticsCard = () => {
   return (
     <div className="dashboard-statistics-grid grid w-full grid-cols-1 gap-3 py-6 sm:grid-cols-2 xl:grid-cols-4">
       {statisticsData.map((stat) => (
-        <Card className={`p-4 flex-1 bg-${stat.color}`} key={stat.id}>
+        <Card className="flex-1 bg-white p-4" key={stat.id}>
           <CardBody className="flex items-center gap-4">
             <Paperclip />
 

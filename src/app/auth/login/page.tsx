@@ -9,10 +9,6 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/store/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
-interface LoginPayloadProps {
-  email: string;
-  password: string;
-}
 export default function LoginPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -27,22 +23,9 @@ export default function LoginPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // TODO: Connect to the login API.
-    console.log({ email, password });
-    const loginPayload: LoginPayloadProps = { email, password };
+    setIsLoading(true);
     try {
-      const response = await loginUser(loginPayload);
-      await Swal.fire({
-        title: "Welcome to Graz!",
-        text: "Logged in Successfully",
-        icon: "success",
-        confirmButtonText: "Okay",
-        confirmButtonColor: "#426B45",
-      });
-      resetForm();
-      response.user.role == "TUTOR"
-        ? router.push("/dashboard/tutor")
-        : router.push("/dashboard/student");
+      const response = await loginUser({ email, password });
       dispatch(
         setUser({
           id: response.user.id,
@@ -51,7 +34,20 @@ export default function LoginPage() {
           role: response.user.role,
         }),
       );
-    } catch (error) {
+      await Swal.fire({
+        title: "Welcome to Graz!",
+        text: "Logged in Successfully",
+        icon: "success",
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#426B45",
+      });
+      resetForm();
+      if (response.user.role === "TUTOR") {
+        router.push("/dashboard/tutor");
+      } else {
+        router.push("/dashboard/student");
+      }
+    } catch {
       await Swal.fire({
         title: "Invalid credentials",
         text: "Please retry",
@@ -59,9 +55,8 @@ export default function LoginPage() {
         confirmButtonText: "Okay",
         confirmButtonColor: "#426B45",
       });
-      console.log(error);
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   }
 
@@ -120,8 +115,8 @@ export default function LoginPage() {
           />
         </div>
 
-        <Button type="submit" size="lg" className="w-full">
-          Sign In
+        <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+          {isLoading ? "Signing in…" : "Sign In"}
         </Button>
       </form>
 

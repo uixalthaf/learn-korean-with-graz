@@ -9,7 +9,7 @@ const PageNotFound = () => {
 
         <h2 className="text-xl font-semibold">Page Not Found</h2>
 
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-center text-sm text-muted">
           The page you are looking for doesn't exist.
         </p>
 

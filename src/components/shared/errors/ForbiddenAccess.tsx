@@ -13,7 +13,7 @@ const ForbiddenAccess = ({ dashboardHref }: ForbiddenAccessProps) => {
 
         <h2 className="text-xl font-semibold">Access Forbidden</h2>
 
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-center text-sm text-muted">
           You don't have permission to access this page.
         </p>
 

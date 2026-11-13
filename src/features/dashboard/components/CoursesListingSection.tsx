@@ -1,5 +1,5 @@
 import React from "react";
-import tutorDashboardData from "@/app/dashboard/tutor/tutorDashboardData";
+import tutorDashboardData from "@/features/dashboard/data/demoDashboardData";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card/Card";
 
 const CoursesListingSection = () => {

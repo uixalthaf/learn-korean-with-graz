@@ -1,19 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TUTOR_NAME } from "@/config/tutorInfo";
 import StatisticsCard from "@/features/dashboard/components/StatisticsCard";
-import GroupSessionsSection from "@/features/dashboard/components/GroupSessionsSection";
 import StudentsListingSection from "@/features/dashboard/components/StudentsListingSection";
-import CoursesListingSection from "@/features/dashboard/components/CoursesListingSection";
-import QuickActionsSection from "@/features/dashboard/components/QuickActionsSection";
 import ContinueCard from "./ContinueCard";
+import ScheduledClassesList from "@/features/sessions/components/ScheduledClassesList";
+import { useScheduledClasses } from "@/features/sessions/hooks/useScheduledClasses";
 import { formatDate } from "@/lib/formatDate";
 
 const TutorDashboard = () => {
+  const scheduledClasses = useScheduledClasses();
   const [todaysDate, setTodaysDate] = useState("");
 
   useEffect(() => {
+    // Keep the tutor's local calendar date from disagreeing with the server during hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTodaysDate(formatDate(new Date()));
   }, []);
   return (
@@ -23,7 +25,7 @@ const TutorDashboard = () => {
         <h2 className="font-bold font-georgia text-xl sm:text-2xl">
           Good Morning , <span>{TUTOR_NAME}</span>
         </h2>
-        <span>Today you are teaching 3 group classes Let's have a greay day.</span>
+        <span>Today you are teaching 3 group classes. Let&apos;s have a great day.</span>
       </div>
 
       <StatisticsCard />
@@ -36,6 +38,9 @@ const TutorDashboard = () => {
         </div>
         <div className="dashboard-primary-panel h-full min-w-0 flex-1">
           <ContinueCard title="Continue Teaching" />
+          <div className="mt-4">
+            <ScheduledClassesList {...scheduledClasses} audience="tutor" />
+          </div>
           {/* <GroupSessionsSection /> */}
           {/* <QuickActionsSection /> hasnt been inlcuded in the dashboard yet, will be added later */}
         </div>

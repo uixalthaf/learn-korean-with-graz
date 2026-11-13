@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -14,16 +13,28 @@ enum Role {
   ADMIN
 }
 
+enum ClassStatus {
+  SCHEDULED
+  CANCELLED
+  COMPLETED
+}
+
 model User {
-  id String @id @default(uuid()) @db.Uuid
+  id           String   @id @default(uuid()) @db.Uuid
   name         String
   email        String   @unique
   passwordHash String
   role         Role     @default(STUDENT)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  
-  sessions     Session[]
+  lastSeenAt   DateTime? @db.Timestamptz(3)
+
+  sessions             Session[]
+  taughtClasses        ClassSession[]    @relation("TutorClasses")
+  classEnrollments     ClassEnrollment[] @relation("StudentClassEnrollments")
+  studentConversations Conversation[]    @relation("ConversationStudent")
+  tutorConversations   Conversation[]    @relation("ConversationTutor")
+  sentMessages         Message[]         @relation("MessageSender")
 }
 
 model Session {
@@ -37,4 +48,64 @@ model Session {
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+model ClassSession {
+  id              String            @id @default(cuid())
+  title           String            @db.VarChar(160)
+  startsAt        DateTime          @db.Timestamptz(3)
+  timeZone        String            @default("UTC") @db.VarChar(64)
+  durationMinutes Int
+  notes           String?           @db.Text
+  meetingUrl      String?           @db.Text
+  calendarEventId String?           @db.VarChar(255)
+  status          ClassStatus       @default(SCHEDULED)
+  tutorId         String            @db.Uuid
+  tutor           User              @relation("TutorClasses", fields: [tutorId], references: [id], onDelete: Cascade)
+  enrollments     ClassEnrollment[]
+  createdAt       DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime          @updatedAt @db.Timestamptz(3)
+
+  @@index([tutorId, startsAt])
+  @@index([status, startsAt])
+}
+
+model ClassEnrollment {
+  id             String       @id @default(cuid())
+  classSessionId String
+  studentId      String       @db.Uuid
+  classSession   ClassSession @relation(fields: [classSessionId], references: [id], onDelete: Cascade)
+  student        User         @relation("StudentClassEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+
+  @@unique([classSessionId, studentId])
+  @@index([studentId, classSessionId])
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  studentId String   @db.Uuid
+  tutorId   String   @db.Uuid
+  student   User     @relation("ConversationStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  tutor     User     @relation("ConversationTutor", fields: [tutorId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@unique([studentId, tutorId])
+  @@index([tutorId, updatedAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String       @db.Uuid
+  body           String       @db.Text
+  readAt         DateTime?    @db.Timestamptz(3)
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+
+  @@index([conversationId, createdAt])
+  @@index([conversationId, senderId, readAt])
 }

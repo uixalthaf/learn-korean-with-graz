@@ -1,7 +1,7 @@
-import tutorDashboardData from "@/app/dashboard/tutor/tutorDashboardData";
+import tutorDashboardData from "@/features/dashboard/data/demoDashboardData";
 import { Button } from "@/components/ui/Button/Button";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card/Card";
-import { Book, Calendar, InfoIcon, Paperclip, Video } from "lucide-react";
+import { Calendar, InfoIcon, Video } from "lucide-react";
 
 const GroupSessionsSection = () => {
   return (
@@ -9,7 +9,7 @@ const GroupSessionsSection = () => {
       <Card>
         <CardHeader className="flex gap-2">
           <Calendar />
-          Today's Group Sessions
+          Today&apos;s Group Sessions
         </CardHeader>
 
         <CardBody className="flex flex-col gap-4">

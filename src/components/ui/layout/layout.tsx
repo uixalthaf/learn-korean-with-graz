@@ -28,9 +28,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       )}
       <div className="flex min-w-0 flex-1 flex-col">
         <AppHeader onMenuClick={() => setMobileNavOpen((open) => !open)} />
-        <main className="dashboard-main min-h-0 flex-1 overflow-y-auto p-4 md:p-5">
-          {children}
-        </main>
+        <main className="dashboard-main min-h-0 flex-1 overflow-y-auto md:p-5">{children}</main>
       </div>
     </div>
   );

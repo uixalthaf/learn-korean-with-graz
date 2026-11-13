@@ -11,7 +11,7 @@
   --heading: #263d2c;
   --surface: #f5f0e6;
   --border: #e5ded0;
-  --muted: #7d8174;
+  --muted: #5d6658;
   --font-heading: Georgia, "Times New Roman", serif;
   --accent-background: #c9dcc0;
 
@@ -97,31 +97,34 @@ body {
   font-size: 13px;
 }
 
-/* Heading defaults */
-h1,
-h2,
-h3,
-h4 {
-  margin: 0;
-  color: var(--heading);
-  font-weight: 600;
-  line-height: 1.15;
-}
+/* Base heading styles should yield to component-level Tailwind utilities. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    color: var(--heading);
+    font-weight: 600;
+    line-height: 1.15;
+  }
 
-h1 {
-  font-size: 3rem;
-}
+  h1 {
+    font-size: 3rem;
+  }
 
-h2 {
-  font-size: 2rem;
-}
+  h2 {
+    font-size: 2rem;
+  }
 
-h3 {
-  font-size: 1.5rem;
-}
-h4 {
-  font-size: 1rem;
-  font-weight: bold;
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }
 
 /* Keep images within their containers */

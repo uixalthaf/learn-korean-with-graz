@@ -1,25 +1,19 @@
 "use client";
-import tutorDashboardData from "@/app/dashboard/tutor/tutorDashboardData";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card/Card";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getTutorDashboardData } from "../api/dashboard.api";
-import { ArrowRight, FaceExpressionless, Mail } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import type { StudentSummary } from "../api/dashboard.api.types";
 
-type Student = {
-  id: string;
-  name: string;
-  email: string;
-};
 const StudentsListingSection = () => {
-  const [studentsData, setStudentsData] = useState<Student[]>([]);
+  const [studentsData, setStudentsData] = useState<StudentSummary[]>([]);
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const response = await getTutorDashboardData();
-        console.log(studentsData);
         setStudentsData(response.students);
       } catch (error) {
-        console.log("error while feching student data", error);
+        console.error("Unable to load tutor student summary.", error);
       }
     };
     fetchStudents();

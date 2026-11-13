@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -12,10 +12,7 @@ import {
   Settings,
   MailIcon,
   LogOut,
-  PanelLeftClose,
-  PanelLeftOpen,
   ChevronRight,
-  ChevronLast,
   ChevronLeft,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -24,6 +21,7 @@ import sidebarVector from "@/assets/images/sidebar_vector_illustration.png";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import logoutSession from "@/features/auth/logout/logout.api";
 import { clearUser } from "@/store/auth/authSlice";
+import { getUnreadMessageCount } from "@/features/messages/api/messages.api";
 
 const tutorNavigationItems = [
   { label: "Dashboard", href: "/dashboard/tutor", icon: LayoutDashboard },
@@ -32,16 +30,16 @@ const tutorNavigationItems = [
   { label: "Group Sessions", href: "/tutor/sessions", icon: CalendarDays },
   { label: "Assignments", href: "/tutor/assignments", icon: ClipboardList },
   { label: "Learning Materials", href: "/tutor/materials", icon: FolderOpen },
-  { label: "Messages", href: "/tutor/messages", icon: MailIcon },
-  { label: "Settings", href: "/tutor/settings", icon: Settings },
+  { label: "Messages", href: "/messages", icon: MailIcon },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 const studentNavigationItems = [
   { label: "Dashboard", href: "/dashboard/student", icon: LayoutDashboard },
   { label: "Assignments", href: "/student/assignments", icon: ClipboardList },
   { label: "Learning Materials", href: "/student/materials", icon: FolderOpen },
-  { label: "Messages", href: "/student/messages", icon: MailIcon },
-  { label: "Settings", href: "/student/settings", icon: Settings },
+  { label: "Messages", href: "/messages", icon: MailIcon },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 interface AppSidebarProps {
@@ -52,14 +50,39 @@ interface AppSidebarProps {
 
 const AppSidebar = ({ mobileNavOpen, onNavigate, onClose }: AppSidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [unreadCountForUser, setUnreadCountForUser] = useState<{ userId: string; count: number } | null>(null);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
 
   const user = useAppSelector((state) => state.auth.user);
+  const unreadMessageCount = unreadCountForUser && unreadCountForUser.userId === user?.id
+    ? unreadCountForUser.count
+    : 0;
 
   const navigationItems = user?.role === "STUDENT" ? studentNavigationItems : tutorNavigationItems;
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    let mounted = true;
+    const refreshUnreadCount = async () => {
+      try {
+        const count = await getUnreadMessageCount();
+        if (mounted) setUnreadCountForUser({ userId: user.id, count });
+      } catch {
+        if (mounted) setUnreadCountForUser({ userId: user.id, count: 0 });
+      }
+    };
+
+    void refreshUnreadCount();
+    const intervalId = window.setInterval(() => void refreshUnreadCount(), 15_000);
+    return () => {
+      mounted = false;
+      window.clearInterval(intervalId);
+    };
+  }, [user?.id]);
 
   const handleLogout = async () => {
     const success = await logoutSession();
@@ -114,7 +137,7 @@ const AppSidebar = ({ mobileNavOpen, onNavigate, onClose }: AppSidebarProps) => 
         <ul className="space-y-1.5">
           {navigationItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             return (
               <li key={item.href}>
@@ -137,9 +160,9 @@ const AppSidebar = ({ mobileNavOpen, onNavigate, onClose }: AppSidebarProps) => 
                     <>
                       <span>{item.label}</span>
 
-                      {item.label === "Messages" && (
-                        <span className="ml-auto inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">
-                          3
+                      {item.label === "Messages" && unreadMessageCount > 0 && (
+                        <span className={`ml-auto inline-flex min-h-5 min-w-5 items-center justify-center rounded-full px-1 text-xs font-semibold ${isActive ? "bg-white text-primary" : "bg-primary text-white"}`}>
+                          {unreadMessageCount > 99 ? "99+" : unreadMessageCount}
                         </span>
                       )}
                     </>

@@ -17,14 +17,16 @@ The project is being developed incrementally, with an emphasis on maintainable c
 - **Responsive landing page** — A structured, responsive interface designed to introduce the platform and its learning experience.
 - **Reusable UI components** — A component-based approach to building consistent and maintainable interfaces.
 - **Modern visual design** — A cohesive design system with considered typography, spacing, colour, and visual hierarchy.
+- **Role based accounts** — Student registration, tutor login, and database backed sessions.
+- **Class scheduling** — Tutors can schedule classes; enrolled students can see upcoming classes and join when a Meet link is available.
+- **Student–tutor messaging** — Private, database backed conversations with unread counts, read receipts, and online indicators.
+- **Tutor dashboard data** — Student and upcoming class counts come from the database.
 
 ### Planned
 
-- **Student dashboard** — A centralised view of upcoming lessons and learning resources.
-- **Class scheduling** — A streamlined experience for managing tutoring sessions.
+- **Session management** — Editing, cancelling, and completion workflows for classes.
 - **Learning materials** — Access to lesson notes and resources after each class.
-- **Authentication and protected routes** — Role-aware access for students and the tutor.
-- **Tutor dashboard** — Tools for managing students and scheduled classes.
+- **WebSocket message delivery** — The current MVP refreshes messages over authenticated APIs; socket delivery remains a future improvement.
 
 *Planned features will be added progressively as development continues.*
 
@@ -84,16 +86,20 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 **Status:** In active development.
 
-The landing page is the starting point, with dashboard functionality and tutoring workflows planned as subsequent development milestones.
+Authentication, class scheduling, and student–tutor messaging are implemented; class management and learning materials remain in progress.
 
 ## Roadmap
 
 - [x] Initial landing page
 - [ ] Complete responsive and accessibility refinements
-- [ ] Student dashboard
-- [ ] Authentication and session management
-- [ ] Class scheduling and lesson management
-- [ ] Database-backed student and lesson data
+- [x] Student dashboard foundation
+- [x] Authentication and session management
+- [x] Class scheduling and joining
+- [x] Student–tutor messaging and online presence
+- [ ] WebSocket message delivery
+- [ ] Class editing and cancellation
+- [x] Database-backed accounts and scheduled classes
+- [ ] Database-backed learning materials
 - [ ] Production deployment and testing
 
 ## About the Project
