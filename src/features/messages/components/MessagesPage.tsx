@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import {
   ArrowLeft,
@@ -46,6 +46,7 @@ export default function MessagesPage() {
   const [messageError, setMessageError] = useState(false);
   const [sendError, setSendError] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const messageListRef = useRef<HTMLDivElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const soundEnabledRef = useRef(true);
   const seenMessageIdsRef = useRef(new Set<string>());
@@ -67,6 +68,16 @@ export default function MessagesPage() {
       return matchesSearch && matchesFilter;
     });
   }, [conversations, filter, search]);
+
+  useLayoutEffect(() => {
+    const messageList = messageListRef.current;
+    if (!messageList) return;
+
+    messageList.scrollTo({
+      top: messageList.scrollHeight,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  }, [activeId, messages.length, peerIsTyping]);
 
   useEffect(() => {
     let mounted = true;
@@ -397,7 +408,7 @@ export default function MessagesPage() {
                 <button type="button" onClick={() => setShowDetails((shown) => !shown)} aria-label="Toggle contact details" className="cursor-pointer rounded-full p-2.5 text-primary transition-colors hover:bg-surface"><MoreVertical size={19} /></button>
               </header>
 
-              <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto bg-[#f8f6f1] px-4 py-6 sm:px-6 xl:px-10 xl:py-8">
+              <div ref={messageListRef} className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto bg-[#f8f6f1] px-4 py-6 sm:px-6 xl:px-10 xl:py-8">
                 <div className="mx-auto rounded-full bg-white/80 px-4 py-1.5 text-sm text-muted shadow-sm">Today</div>
                 {loadingMessages && messages.length === 0 && <p className="m-auto text-sm text-muted">Loading messages…</p>}
                 {!loadingMessages && messages.length === 0 && !messageError && <p className="m-auto text-sm text-muted">Send a message to start the conversation.</p>}
