@@ -8,6 +8,8 @@ import WhyLearnKorean from "./WhyLearnKorean";
 import TutorIntro from "./TutorIntro";
 import Footer from "./Footer";
 import Courses from "./Courses";
+import Reviews from "./Reviews";
+import FAQ from "./FAQ";
 
 function Hero() {
   return (
@@ -76,6 +78,8 @@ function Hero() {
       <WhyLearnKorean />
       <Courses />
       <TutorIntro />
+      <Reviews />
+      <FAQ />
       <Footer />
     </section>
   );

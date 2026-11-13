@@ -104,7 +104,7 @@ export default function MessagesPage() {
         setActiveId((currentId) =>
           result.conversations.some(({ id }) => id === currentId)
             ? currentId
-            : (result.conversations[0]?.id ?? ""),
+            : "",
         );
         setPageError(false);
       } catch {
@@ -315,7 +315,7 @@ export default function MessagesPage() {
   return (
     <div className="h-full min-h-0 text-foreground">
       <section
-        className="grid h-full min-h-[560px] overflow-hidden bg-background md:grid-cols-[minmax(220px,0.72fr)_minmax(0,1.6fr)] 2xl:grid-cols-[minmax(250px,0.72fr)_minmax(0,1.65fr)_minmax(320px,0.95fr)]"
+        className={`grid h-full min-h-[560px] overflow-hidden bg-background md:grid-cols-[minmax(220px,0.72fr)_minmax(0,1.6fr)] ${activeConversation ? "2xl:grid-cols-[minmax(250px,0.72fr)_minmax(0,1.65fr)_minmax(320px,0.95fr)]" : "2xl:grid-cols-[minmax(250px,0.72fr)_minmax(0,2.6fr)]"}`}
         aria-label="Messages workspace"
       >
         <aside className={`min-h-0 flex-col border-r border-border ${activeId ? "hidden md:flex" : "flex"}`}>
@@ -458,7 +458,7 @@ export default function MessagesPage() {
           ) : (
             <div className="flex min-h-0 flex-1 flex-col justify-center gap-3 p-6 text-center">
               <p className="text-sm text-muted">
-                {loading ? "Loading your inbox…" : "Choose a conversation to view messages."}
+                {loading ? "Loading your inbox…" : "Select a chat to continue."}
               </p>
             </div>
           )}

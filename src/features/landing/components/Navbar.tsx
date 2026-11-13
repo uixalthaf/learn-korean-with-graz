@@ -25,7 +25,7 @@ function Navbar() {
 
         {/* Navigation links */}
         <div className="landing-nav-links flex gap-5 lg:gap-8">
-          <Link href="/" className="text-sm text-foreground hover:text-primary">
+          <Link href="#about" className="text-sm text-foreground hover:text-primary">
             About
           </Link>
 
@@ -33,13 +33,13 @@ function Navbar() {
             Courses
           </Link>
 
-          <Link href="#about" className="text-sm text-foreground hover:text-primary">
+          <Link href="#how-it-works" className="text-sm text-foreground hover:text-primary">
             How it works
           </Link>
-          <Link href="#about" className="text-sm text-foreground hover:text-primary">
+          <Link href="#reviews" className="text-sm text-foreground hover:text-primary">
             Reviews
           </Link>
-          <Link href="#about" className="text-sm text-foreground hover:text-primary">
+          <Link href="#faq" className="text-sm text-foreground hover:text-primary">
             FAQ
           </Link>
         </div>

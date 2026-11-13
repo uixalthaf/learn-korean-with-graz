@@ -2,13 +2,12 @@ import { TUTOR_NAME } from "@/config/tutorInfo";
 import Image from "next/image";
 import React from "react";
 import learningLanguageQuote from "@/assets/images/language_learning_quote.png";
-import tutorImage from "@/assets/images/tutor_image.png";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button/Button";
 
 const TutorIntro = () => {
   return (
-    <div className="mt-8 flex flex-col items-center gap-6 md:flex-row md:gap-8">
+    <section id="about" className="scroll-mt-24 mt-8 flex flex-col items-center gap-6 md:flex-row md:gap-8">
       {/* <div>
 <Image src={tutorImage} alt="" />
     </div> */}
@@ -32,7 +31,7 @@ const TutorIntro = () => {
       <div className="w-full max-w-[350px] md:w-[42%] md:shrink-0">
         <Image src={learningLanguageQuote} alt="" className="h-auto w-full object-contain" />
       </div>
-    </div>
+    </section>
   );
 };
 

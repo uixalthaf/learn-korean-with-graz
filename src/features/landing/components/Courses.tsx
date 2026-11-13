@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/Card/Card";
+import { Card, CardBody, CardFooter } from "@/components/ui/Card/Card";
 import Image from "next/image";
 import koreanForBeginners from "@/assets/images/korean_for_beginners.png";
 import conversationalKorean from "@/assets/images/conversational_korean.png";
@@ -27,7 +27,7 @@ const Courses = () => {
     },
   ];
   return (
-    <div className="mt-8">
+    <section id="courses" className="scroll-mt-24 mt-8">
       <span className="uppercase">Our Courses</span>
       <h3>Structured Lessons for your Goals</h3>
       <div className="flex justify-between gap-4 mt-6 flex-wrap">
@@ -52,7 +52,7 @@ const Courses = () => {
           </Card>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

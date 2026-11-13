@@ -3,7 +3,7 @@ import { TUTOR_NAME } from "@/config/tutorInfo";
 import { Calendar, ChartSpline, LanguagesIcon, MessagesSquare } from "lucide-react";
 const FeatureStrip = () => {
   return (
-    <div className="flex flex-row gap-2 mt-10 w-full p-8 rounded-xl justify-between bg-[#EEE6D8] flex-wrap">
+    <div id="how-it-works" className="scroll-mt-24 flex flex-row gap-2 mt-10 w-full p-8 rounded-xl justify-between bg-[#EEE6D8] flex-wrap">
       <div className="flex flex-col gap-1 items-center max-w-[200px] text-center">
         <LanguagesIcon width={28} height={28} className="text-primary" />
         <span className="font-bold">Learn Hangul</span>
