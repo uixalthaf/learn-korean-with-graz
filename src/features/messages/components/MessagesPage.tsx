@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import {
   ArrowLeft,
   Check,
@@ -23,6 +24,7 @@ import type {
   ConversationSummary,
   MessagingRole,
 } from "../types";
+import { getRealtimeClient } from "@/lib/realtime/supabase-client";
 
 type Filter = "All" | "Unread";
 
@@ -30,6 +32,7 @@ export default function MessagesPage() {
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [peerIsTyping, setPeerIsTyping] = useState(false);
+  const [viewerId, setViewerId] = useState("");
   const [role, setRole] = useState<MessagingRole | null>(null);
   const [activeId, setActiveId] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
@@ -49,6 +52,9 @@ export default function MessagesPage() {
   const conversationListLoadedRef = useRef(false);
   const typingTimerRef = useRef<number | null>(null);
   const lastTypingSentRef = useRef(0);
+  const realtimeChannelRef = useRef<RealtimeChannel | null>(null);
+  const realtimeActiveRef = useRef(false);
+  const peerTypingTimerRef = useRef<number | null>(null);
 
   const activeConversation = conversations.find(({ id }) => id === activeId) ?? null;
   const loadingMessages = Boolean(activeId) && loadedConversationId !== activeId;
@@ -81,6 +87,7 @@ export default function MessagesPage() {
         conversationListLoadedRef.current = true;
         setConversations(result.conversations);
         setRole(result.role);
+        setViewerId(result.viewerId);
         setActiveId((currentId) =>
           result.conversations.some(({ id }) => id === currentId)
             ? currentId
@@ -147,7 +154,7 @@ export default function MessagesPage() {
         }
         initialLoad = false;
         setMessages(result.messages);
-        setPeerIsTyping(result.peerIsTyping);
+        if (!realtimeActiveRef.current) setPeerIsTyping(result.peerIsTyping);
         setMessageError(false);
       } catch {
         if (mounted) setMessageError(true);
@@ -157,12 +164,75 @@ export default function MessagesPage() {
     }
 
     void refreshMessages();
-    const intervalId = window.setInterval(() => void refreshMessages(), 3_000);
+    const realtime = getRealtimeClient();
+    let channel: RealtimeChannel | null = null;
+
+    if (realtime && viewerId) {
+      channel = realtime
+        .channel(`conversation:${activeId}`, {
+          config: { private: true, broadcast: { self: false } },
+        })
+        .on("broadcast", { event: "INSERT" }, ({ payload }) => {
+          const message = parseRealtimeMessage(payload.new);
+          if (!message || message.conversationId !== activeId) return;
+
+          if (seenMessageIdsRef.current.has(message.id)) return;
+          seenMessageIdsRef.current.add(message.id);
+          if (!initialLoad && message.senderId === activeConversation?.peer.id) {
+            playNotificationSound(audioContextRef.current, soundEnabledRef.current);
+          }
+          setMessages((current) => current.some(({ id }) => id === message.id) ? current : [...current, message]);
+          setConversations((current) => current.map((conversation) =>
+            conversation.id === activeId
+              ? {
+                  ...conversation,
+                  lastMessage: message,
+                  unreadCount: message.senderId === viewerId ? conversation.unreadCount : 0,
+                  updatedAt: message.createdAt,
+                }
+              : conversation,
+          ));
+          setPeerIsTyping(false);
+          if (peerTypingTimerRef.current !== null) window.clearTimeout(peerTypingTimerRef.current);
+          void refreshMessages();
+        })
+        .on("broadcast", { event: "typing" }, ({ payload }) => {
+          if (payload.senderId !== activeConversation?.peer.id) return;
+          const isTyping = payload.isTyping === true;
+          setPeerIsTyping(isTyping);
+          if (peerTypingTimerRef.current !== null) window.clearTimeout(peerTypingTimerRef.current);
+          if (isTyping) {
+            peerTypingTimerRef.current = window.setTimeout(() => {
+              setPeerIsTyping(false);
+              peerTypingTimerRef.current = null;
+            }, 3_000);
+          }
+        })
+        .subscribe((status) => {
+          if (!mounted) return;
+          if (status === "SUBSCRIBED") {
+            realtimeChannelRef.current = channel;
+            realtimeActiveRef.current = true;
+            void refreshMessages();
+          } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+            if (realtimeChannelRef.current === channel) realtimeChannelRef.current = null;
+            realtimeActiveRef.current = false;
+          }
+        });
+    }
+
+    const intervalId = window.setInterval(() => {
+      if (!realtimeActiveRef.current) void refreshMessages();
+    }, 3_000);
     return () => {
       mounted = false;
       window.clearInterval(intervalId);
+      realtimeActiveRef.current = false;
+      if (realtimeChannelRef.current === channel) realtimeChannelRef.current = null;
+      if (peerTypingTimerRef.current !== null) window.clearTimeout(peerTypingTimerRef.current);
+      if (channel && realtime) void realtime.removeChannel(channel);
     };
-  }, [activeConversation?.peer.id, activeId]);
+  }, [activeConversation?.peer.id, activeId, viewerId]);
 
   useEffect(() => {
     return () => {
@@ -177,18 +247,17 @@ export default function MessagesPage() {
 
     if (typingTimerRef.current !== null) window.clearTimeout(typingTimerRef.current);
     if (!value.trim()) {
-      void updateTypingStatus(activeId, false).catch(() => undefined);
+      sendTypingUpdate(realtimeChannelRef.current, realtimeActiveRef.current, viewerId, activeId, false);
       lastTypingSentRef.current = 0;
       return;
     }
 
-    const now = Date.now();
-    if (now - lastTypingSentRef.current >= 1_000) {
-      lastTypingSentRef.current = now;
-      void updateTypingStatus(activeId, true).catch(() => undefined);
+    if (!lastTypingSentRef.current) {
+      lastTypingSentRef.current = Date.now();
+      sendTypingUpdate(realtimeChannelRef.current, realtimeActiveRef.current, viewerId, activeId, true);
     }
     typingTimerRef.current = window.setTimeout(() => {
-      void updateTypingStatus(activeId, false).catch(() => undefined);
+      sendTypingUpdate(realtimeChannelRef.current, realtimeActiveRef.current, viewerId, activeId, false);
       lastTypingSentRef.current = 0;
       typingTimerRef.current = null;
     }, 2_500);
@@ -203,12 +272,12 @@ export default function MessagesPage() {
     setSendError(false);
     if (typingTimerRef.current !== null) window.clearTimeout(typingTimerRef.current);
     typingTimerRef.current = null;
-    void updateTypingStatus(activeConversation.id, false).catch(() => undefined);
+    sendTypingUpdate(realtimeChannelRef.current, realtimeActiveRef.current, viewerId, activeConversation.id, false);
     lastTypingSentRef.current = 0;
     try {
       const message = await sendConversationMessage(activeConversation.id, body);
       seenMessageIdsRef.current.add(message.id);
-      setMessages((current) => [...current, message]);
+      setMessages((current) => current.some(({ id }) => id === message.id) ? current : [...current, message]);
       setConversations((current) =>
         current.map((conversation) =>
           conversation.id === activeConversation.id
@@ -407,6 +476,50 @@ function Avatar({ name, tone, isOnline, size = "regular" }: { name: string; tone
       {isOnline && <span className="absolute bottom-0 right-0 size-3 rounded-full border-2 border-white bg-emerald-500" />}
     </span>
   );
+}
+
+function parseRealtimeMessage(value: unknown): ConversationMessage | null {
+  if (typeof value !== "object" || value === null) return null;
+  const message = value as Record<string, unknown>;
+  if (
+    typeof message.id !== "string" ||
+    typeof message.conversationId !== "string" ||
+    typeof message.senderId !== "string" ||
+    typeof message.body !== "string" ||
+    typeof message.createdAt !== "string"
+  ) {
+    return null;
+  }
+
+  return {
+    id: message.id,
+    conversationId: message.conversationId,
+    senderId: message.senderId,
+    body: message.body,
+    createdAt: message.createdAt,
+    readAt: typeof message.readAt === "string" ? message.readAt : null,
+  };
+}
+
+function sendTypingUpdate(
+  channel: RealtimeChannel | null,
+  realtimeActive: boolean,
+  viewerId: string,
+  conversationId: string,
+  isTyping: boolean,
+) {
+  if (channel && realtimeActive && viewerId) {
+    void channel.send({
+      type: "broadcast",
+      event: "typing",
+      payload: { senderId: viewerId, isTyping },
+    }).then((status) => {
+      if (status !== "ok") void updateTypingStatus(conversationId, isTyping).catch(() => undefined);
+    });
+    return;
+  }
+
+  void updateTypingStatus(conversationId, isTyping).catch(() => undefined);
 }
 
 function Info({ label, value }: { label: string; value: string }) {

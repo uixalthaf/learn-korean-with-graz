@@ -111,3 +111,21 @@ The goal is to evolve the initial experience into a maintainable, full-stack lea
 ---
 
 **Built with Next.js, TypeScript, and React.**
+
+## Realtime messaging
+
+Chat history and message writes continue to use the authenticated Next.js API and Prisma. Supabase Realtime is used for immediate message delivery and typing indicators; the UI falls back to polling if it cannot connect.
+
+Configure these values in local `.env` and in the deployment environment:
+
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL="https://<project-ref>.supabase.co"
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="<publishable-key>"
+SUPABASE_JWT_SECRET="<project-jwt-secret>"
+```
+
+Get the URL and publishable key from the Supabase project’s Connect dialog. Keep `SUPABASE_JWT_SECRET` server-only; never prefix it with `NEXT_PUBLIC_` or commit it. The app uses it to mint short-lived Realtime tokens for its existing session-cookie users.
+
+In Supabase Project Settings → Realtime, disable public channel access so private channel membership policies are enforced. The migration `20261113180000_enable_realtime_chat` limits each conversation channel to its tutor and student and broadcasts newly persisted messages.
+
+If deploying to a separate database, apply migrations before deploying the app with `npx prisma migrate deploy`.
